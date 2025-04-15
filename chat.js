@@ -1,9 +1,4 @@
-const userInput = document.getElementById("user-input");
-const sendButton = document.getElementById("send-button");
-const chatBox = document.getElementById("chat-box");
-const typingIndicator = document.getElementById("typing-indicator");
-
-const botResponses = {
+  const botResponses = {
   "school name": "Our school is DAV Public School New Shimla.",
   "name of the school": "Our school is DAV Public School New Shimla.",
   "location": "We are located in New Shimla, Sector-4.",
@@ -29,10 +24,24 @@ const botResponses = {
   "how many students": "There are more than 2000 students in the school.",
   "how many sections": "Each class has 6 sections: A, B, C, D, E, and F.",
   "creator of chatbot": "Mr. Kunal Sood and Mr. Ayraveer Thakur are the creators of me.",
-  // Add more general knowledge questions and answers here...
+  "who is the head boy": "The current head boy is not yet announced, but I will update you soon.",
+  "who is the class teacher": "The class teacher for each section varies. You can find details in your class list.",
+  "who is the class 9 maths teacher": "Mr. Kamal Thakur, Vipin Sir, and Yogita Ma'am handle Class 9 Mathematics.",
+  // Add more responses as needed for general questions
+  "how many continents are there": "There are 7 continents on Earth.",
+  "what is the capital of france": "The capital of France is Paris.",
+  "who invented the telephone": "Alexander Graham Bell invented the telephone.",
+  "tell me a joke": "Why don't skeletons fight each other? They don't have the guts!",
+  "what is your favorite color": "I love blue, it’s calm and peaceful.",
+  "how old are you": "I am an AI, so I don't have an age like humans do!",
+  "tell me a fun fact": "Did you know that honey never spoils? Archaeologists have found pots of honey in ancient tombs that are over 3,000 years old!",
+  "what is the weather today": "I can’t check the weather right now, but you can use a weather app or website for the latest updates.",
+  "who is the president of india": "The President of India is Droupadi Murmu.",
+  "what is the national animal of india": "The national animal of India is the Bengal tiger.",
+  // More general knowledge questions and answers...
 };
 
-sendButton.addEventListener("click", function () {
+function sendMessage() {
   const userText = userInput.value.trim();
   if (userText === "") return;
 
@@ -46,7 +55,7 @@ sendButton.addEventListener("click", function () {
     appendMessage(reply, "bot-message");
     typingIndicator.style.display = "none";
   }, 1000);  // Typing delay
-});
+}
 
 function appendMessage(message, className) {
   const messageElement = document.createElement("div");
@@ -67,3 +76,9 @@ function getBotReply(input) {
 
   return "I didn't understand that. Could you rephrase? 🧐";
 }
+
+userInput.addEventListener("keypress", function (e) {
+  if (e.key === "Enter") {
+    sendMessage();
+  }
+});
