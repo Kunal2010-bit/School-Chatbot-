@@ -1,6 +1,7 @@
- const chatBox = document.getElementById("chat-box");
 const userInput = document.getElementById("user-input");
-const typingIndicator = document.getElementById("typing");
+const sendButton = document.getElementById("send-button");
+const chatBox = document.getElementById("chat-box");
+const typingIndicator = document.getElementById("typing-indicator");
 
 const botResponses = {
   "school name": "Our school is DAV Public School New Shimla.",
@@ -24,10 +25,14 @@ const botResponses = {
   "library": "Yes, our library has a great collection of books and digital resources.",
   "sports": "Yes, we have football, basketball, cricket, and athletics.",
   "clubs": "Science Club, Drama Club, Robotics Club, and Debate Club.",
-  "transport": "Yes, we have school buses for most local areas."
+  "transport": "Yes, we have school buses for most local areas.",
+  "how many students": "There are more than 2000 students in the school.",
+  "how many sections": "Each class has 6 sections: A, B, C, D, E, and F.",
+  "creator of chatbot": "Mr. Kunal Sood and Mr. Ayraveer Thakur are the creators of me.",
+  // Add more general knowledge questions and answers here...
 };
 
-function sendMessage() {
+sendButton.addEventListener("click", function () {
   const userText = userInput.value.trim();
   if (userText === "") return;
 
@@ -40,8 +45,8 @@ function sendMessage() {
     const reply = getBotReply(userText.toLowerCase());
     appendMessage(reply, "bot-message");
     typingIndicator.style.display = "none";
-  }, 800);
-}
+  }, 1000);  // Typing delay
+});
 
 function appendMessage(message, className) {
   const messageElement = document.createElement("div");
@@ -60,11 +65,5 @@ function getBotReply(input) {
     }
   }
 
-  return "I'm still learning! Please ask something related to the school.";
+  return "I didn't understand that. Could you rephrase? 🧐";
 }
-
-userInput.addEventListener("keypress", function (e) {
-  if (e.key === "Enter") {
-    sendMessage();
-  }
-});
