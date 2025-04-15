@@ -87,12 +87,16 @@ function getBotReply(input) {
     }
   }
 
-  if (["hi", "hello", "hey"].includes(input)) {
+  const greetings = ["hi", "hello", "hey"];
+  if (greetings.some(word => input.includes(word))) {
     return "Hey there! How can I help you today?";
   }
 
+  // Smart matching using keywords
   for (let key in botResponses) {
-    if (input.includes(key)) {
+    const keywords = key.split(" ");
+    const match = keywords.every(word => input.includes(word));
+    if (match) {
       return botResponses[key] + " ✨";
     }
   }
