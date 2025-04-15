@@ -80,27 +80,34 @@ function appendMessage(message, className) {
 function getBotReply(input) {
   input = input.replace(/[^\w\s]/gi, "").toLowerCase();
 
+  // Creator detection
   const creatorKeywords = ["creator", "who made you", "who created you", "who is your creator", "who developed you"];
-  for (let phrase of creatorKeywords) {
-    if (input.includes(phrase)) {
-      return "Mr. Ayraveer Thakur and Mr. Kunal Sood are the creators of me! ⚡";
-    }
+  if (creatorKeywords.some(word => input.includes(word))) {
+    return "Mr. Ayraveer Thakur and Mr. Kunal Sood are the creators of me! ⚡";
   }
 
+  // Greetings
   const greetings = ["hi", "hello", "hey"];
-  if (greetings.some(word => input.includes(word))) {
+  if (greetings.some(g => input.includes(g))) {
     return "Hey there! How can I help you today?";
   }
 
-  // Smart matching using keywords
+  // Advanced fuzzy matching for known responses
   for (let key in botResponses) {
     const keywords = key.split(" ");
-    const match = keywords.every(word => input.includes(word));
-    if (match) {
+    let matchCount = 0;
+
+    keywords.forEach(word => {
+      if (input.includes(word)) matchCount++;
+    });
+
+    // If 60% or more keywords match, accept it
+    if (matchCount / keywords.length >= 0.6) {
       return botResponses[key] + " ✨";
     }
   }
 
+  // Fallbacks
   if (input.includes("who")) return "Hmm, could you tell me who you mean?";
   if (input.includes("what")) return "Interesting! Can you rephrase your question?";
   if (input.length < 4) return "That seems too short. Try asking something longer!";
