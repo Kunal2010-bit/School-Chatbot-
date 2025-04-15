@@ -80,7 +80,6 @@ function appendMessage(message, className) {
 function getBotReply(input) {
   input = input.replace(/[^\w\s]/gi, "").toLowerCase();
 
-  // Handle variations of "creator" questions
   const creatorKeywords = ["creator", "who made you", "who created you", "who is your creator", "who developed you"];
   for (let phrase of creatorKeywords) {
     if (input.includes(phrase)) {
@@ -88,19 +87,16 @@ function getBotReply(input) {
     }
   }
 
-  // Greetings
   if (["hi", "hello", "hey"].includes(input)) {
     return "Hey there! How can I help you today?";
   }
 
-  // Match known questions
   for (let key in botResponses) {
     if (input.includes(key)) {
       return botResponses[key] + " ✨";
     }
   }
 
-  // Fallbacks
   if (input.includes("who")) return "Hmm, could you tell me who you mean?";
   if (input.includes("what")) return "Interesting! Can you rephrase your question?";
   if (input.length < 4) return "That seems too short. Try asking something longer!";
