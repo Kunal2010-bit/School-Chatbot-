@@ -1,4 +1,4 @@
-const chatBox = document.getElementById("chat-box");
+ const chatBox = document.getElementById("chat-box");
 const userInput = document.getElementById("user-input");
 const typingIndicator = document.getElementById("typing");
 
@@ -40,7 +40,7 @@ function sendMessage() {
     const reply = getBotReply(userText.toLowerCase());
     appendMessage(reply, "bot-message");
     typingIndicator.style.display = "none";
-  }, 1000);  // Typing delay
+  }, 800);
 }
 
 function appendMessage(message, className) {
@@ -60,7 +60,7 @@ function getBotReply(input) {
     }
   }
 
-  return "I didn't understand that. Could you rephrase? 🧐";
+  return "I'm still learning! Please ask something related to the school.";
 }
 
 userInput.addEventListener("keypress", function (e) {
