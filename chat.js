@@ -1,66 +1,70 @@
-   
-  const schoolFAQs = {
-    "school name": "The school is DAV Public School New Shimla.",
-    "principal": "The principal is Mr. Rakesh Kumar Chandel.",
-    "timings": "Morning assembly is at 8:30 AM. Periods start at 9:00 AM and end at 2:20 PM.",
-    "address": "The school is in Sector-4, New Shimla.",
-    "exam": "Term 1 exams are from 5 May to 15 May.",
-    "result": "Visit the school with your parents during PTM and meet all the teachers to collect your result.",
-    "maths teacher": "Mr. Kamal Thakur, Vipin Sir, and Yogita Ma'am teach Class 9 Mathematics.",
-    "mobile": "No, students are not allowed to bring mobile phones.",
-    "admission": "You can collect the form from the front office.",
-    "uniform": "Students must wear the school uniform with proper shoes.",
-    "holiday": "Upcoming holidays will be shared via notice board or class WhatsApp group."
-};
+ const chatBox = document.getElementById("chat-box");
+const userInput = document.getElementById("user-input");
+const typingIndicator = document.getElementById("typing");
 
-const synonyms = {
-    "name of school": "school name",
-    "headmaster": "principal",
-    "location": "address",
-    "place": "address",
-    "fees": "admission",
-    "charges": "admission",
-    "math teacher": "maths teacher",
-    "maths": "maths teacher",
-    "math": "maths teacher",
-    "mobile phone": "mobile",
-    "cellphone": "mobile",
-    "results": "result",
-    "marks": "result"
+const botResponses = {
+  "school name": "Our school is DAV Public School New Shimla.",
+  "name of the school": "Our school is DAV Public School New Shimla.",
+  "location": "We are located in New Shimla, Sector-4.",
+  "address": "New Shimla, Sector-4.",
+  "timings": "Morning assembly is at 8:30 AM. Periods begin at 9:00 AM and school ends at 2:20 PM.",
+  "school timings": "Morning assembly is at 8:30 AM. Periods begin at 9:00 AM and school ends at 2:20 PM.",
+  "principal": "Our principal is Mr. Rakesh Kumar Chandel.",
+  "math teacher": "Mr. Kamal Thakur, Vipin Sir, and Yogita Ma'am teach Class 9 Mathematics.",
+  "class 9 maths teacher": "Mr. Kamal Thakur, Vipin Sir, and Yogita Ma'am teach Class 9 Mathematics.",
+  "ai teacher": "Kamlesh Ma'am is the AI teacher.",
+  "it teacher": "Juhi Ma'am teaches IT.",
+  "next exam": "Term 1 exams are from 5th May to 15th May.",
+  "check result": "Please come with your parents on PTM day and meet the teachers to collect your result.",
+  "upcoming holidays": "Independence Day on 15th August and Diwali break in October.",
+  "mobile phone": "Mobile phones are not allowed in school.",
+  "apply for admission": "You can apply online through our school website or collect the form from the front office.",
+  "admission documents": "Birth certificate, previous report card, and transfer certificate.",
+  "subjects in class 10": "English, Math, Science, Social Studies, Hindi, and Computer Science.",
+  "library": "Yes, our library has a great collection of books and digital resources.",
+  "sports": "Yes, we have football, basketball, cricket, and athletics.",
+  "clubs": "Science Club, Drama Club, Robotics Club, and Debate Club.",
+  "transport": "Yes, we have school buses for most local areas."
 };
-
-function correctInput(input) {
-    input = input.toLowerCase().trim();
-    for (let key in synonyms) {
-        if (input.includes(key)) input = input.replace(key, synonyms[key]);
-    }
-    return input;
-}
 
 function sendMessage() {
-    const inputElem = document.getElementById("userInput");
-    let userInput = inputElem.value;
-    if (!userInput) return;
-    appendMessage(userInput, "user");
+  const userText = userInput.value.trim();
+  if (userText === "") return;
 
-    userInput = correctInput(userInput);
+  appendMessage(userText, "user-message");
+  userInput.value = "";
 
-    let response = "Sorry, I don’t understand that. Try asking something about the school.";
-    for (let key in schoolFAQs) {
-        if (userInput.includes(key)) {
-            response = schoolFAQs[key];
-            break;
-        }
+  typingIndicator.style.display = "block";
+
+  setTimeout(() => {
+    const reply = getBotReply(userText.toLowerCase());
+    appendMessage(reply, "bot-message");
+    typingIndicator.style.display = "none";
+  }, 1000);  // Typing delay
+}
+
+function appendMessage(message, className) {
+  const messageElement = document.createElement("div");
+  messageElement.className = className;
+  messageElement.innerHTML = message;
+  chatBox.appendChild(messageElement);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function getBotReply(input) {
+  input = input.replace(/[^\w\s]/gi, "").toLowerCase();
+
+  for (let key in botResponses) {
+    if (input.includes(key)) {
+      return botResponses[key] + " ✨";
     }
+  }
 
-    setTimeout(() => appendMessage(response, "bot"), 500);
-    inputElem.value = "";
+  return "I didn't understand that. Could you rephrase? 🧐";
 }
 
-function appendMessage(message, sender) {
-    const msg = document.createElement("div");
-    msg.className = "message " + sender;
-    msg.innerHTML = `<p>${message}</p>`;
-    document.getElementById("chatbox").appendChild(msg);
-    document.getElementById("chatbox").scrollTop = document.getElementById("chatbox").scrollHeight;
-}
+userInput.addEventListener("keypress", function (e) {
+  if (e.key === "Enter") {
+    sendMessage();
+  }
+});
