@@ -83,7 +83,7 @@ function getBotReply(input) {
   // Creator detection
   const creatorKeywords = ["creator", "who made you", "who created you", "who is your creator", "who developed you"];
   if (creatorKeywords.some(word => input.includes(word))) {
-    return "Mr. Aryaveer Thakur and Mr. Kunal Sood are the creators of me! ⚡";
+    return "Aryaveer Thakur and Kunal Sood are the creators of me! ⚡";
   }
 
   // Greetings
