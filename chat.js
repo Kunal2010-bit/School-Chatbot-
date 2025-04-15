@@ -29,7 +29,7 @@ const botResponses = {
   "how many students": "There are more than 2000 students in the school.",
   "how many sections": "Each class has 6 sections: A, B, C, D, E, and F.",
   "creator of chatbot": "Mr. Kunal Sood and Mr. Ayraveer Thakur are the creators of me.",
-  // More general knowledge questions and answers...
+  // Add more general knowledge questions and answers here...
 };
 
 sendButton.addEventListener("click", function () {
