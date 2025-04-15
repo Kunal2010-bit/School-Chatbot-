@@ -2,19 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>SchoolBot AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>School Chatbot</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="chat-container">
-    <h1>Welcome to DAV School Chatbot</h1>
-    <div id="chat-box" class="chat-box"></div>
-    <div id="typing-indicator" style="display:none;">Bot is typing...</div>
+    <div class="chat-header">
+      <h2>School Chatbot</h2>
+    </div>
+    <div class="chat-box" id="chat-box">
+      <div class="typing-indicator" id="typing-indicator">Bot is typing...</div>
+    </div>
     <div class="input-container">
-      <input type="text" id="user-input" placeholder="Ask me something about school..." autocomplete="off" />
-      <button onclick="sendMessage()">Send</button>
+      <input type="text" id="user-input" placeholder="Ask me anything..." autocomplete="off">
+      <button class="send-button" id="send-button">➤</button>
     </div>
   </div>
+
   <script src="chat.js"></script>
 </body>
 </html>
