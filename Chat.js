@@ -40,10 +40,18 @@ const botResponses = {
   "bye": "Goodbye! See you soon!"
 };
 
-sendButton.addEventListener("click", sendMessage);
-userInput.addEventListener("keypress", function (e) {
-  if (e.key === "Enter") sendMessage();
+sendButton.addEventListener("click", function () {
+    console.log("Send button clicked!"); // Check this in the browser's developer console
+    sendMessage();
 });
+
+userInput.addEventListener("keypress", function (e) {
+    if (e.key === "Enter") {
+        console.log("Enter key pressed!"); // Debugging for 'Enter' key functionality
+        sendMessage();
+    }
+});
+
 
 function sendMessage() {
   const userText = userInput.value.trim();
