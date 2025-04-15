@@ -28,11 +28,32 @@ const botResponses = {
   "transport": "Yes, we have school buses for most local areas.",
   "how many students": "There are more than 2000 students in the school.",
   "how many sections": "Each class has 6 sections: A, B, C, D, E, and F.",
-  "creator of chatbot": "Mr. Kunal Sood and Mr. Ayraveer Thakur are the creators of me.",
-  // Add more general knowledge questions and answers here...
+  "head boy": "The current head boy is not yet announced, but I will update you soon.",
+  "class teacher": "The class teacher for each section varies. You can find details in your class list.",
+  // GK & Fun
+  "how many continents": "There are 7 continents on Earth.",
+  "capital of france": "The capital of France is Paris.",
+  "invented the telephone": "Alexander Graham Bell invented the telephone.",
+  "joke": "Why don't skeletons fight each other? They don't have the guts!",
+  "favorite color": "I love blue, it’s calm and peaceful.",
+  "how old are you": "I am an AI, so I don't have an age like humans do!",
+  "fun fact": "Did you know that honey never spoils? It's still edible after thousands of years!",
+  "weather": "I can’t check the weather right now, but try a weather app!",
+  "president of india": "The President of India is Droupadi Murmu.",
+  "national animal": "The national animal of India is the Bengal tiger.",
 };
 
 sendButton.addEventListener("click", function () {
+  sendMessage();
+});
+
+userInput.addEventListener("keypress", function (e) {
+  if (e.key === "Enter") {
+    sendMessage();
+  }
+});
+
+function sendMessage() {
   const userText = userInput.value.trim();
   if (userText === "") return;
 
@@ -45,8 +66,8 @@ sendButton.addEventListener("click", function () {
     const reply = getBotReply(userText.toLowerCase());
     appendMessage(reply, "bot-message");
     typingIndicator.style.display = "none";
-  }, 1000);  // Typing delay
-});
+  }, 800);
+}
 
 function appendMessage(message, className) {
   const messageElement = document.createElement("div");
@@ -59,11 +80,30 @@ function appendMessage(message, className) {
 function getBotReply(input) {
   input = input.replace(/[^\w\s]/gi, "").toLowerCase();
 
+  // Handle variations of "creator" questions
+  const creatorKeywords = ["creator", "who made you", "who created you", "who is your creator", "who developed you"];
+  for (let phrase of creatorKeywords) {
+    if (input.includes(phrase)) {
+      return "Mr. Ayraveer Thakur and Mr. Kunal Sood are the creators of me! ⚡";
+    }
+  }
+
+  // Greetings
+  if (["hi", "hello", "hey"].includes(input)) {
+    return "Hey there! How can I help you today?";
+  }
+
+  // Match known questions
   for (let key in botResponses) {
     if (input.includes(key)) {
       return botResponses[key] + " ✨";
     }
   }
 
-  return "I didn't understand that. Could you rephrase? 🧐";
+  // Fallbacks
+  if (input.includes("who")) return "Hmm, could you tell me who you mean?";
+  if (input.includes("what")) return "Interesting! Can you rephrase your question?";
+  if (input.length < 4) return "That seems too short. Try asking something longer!";
+
+  return "I didn’t understand that. Could you rephrase? 🧐";
 }
