@@ -1,4 +1,4 @@
- const userInput = document.getElementById("user-input");
+(const userInput = document.getElementById("user-input");
 const sendButton = document.getElementById("send-button");
 const chatBox = document.getElementById("chat-box");
 const typingIndicator = document.getElementById("typing-indicator");
