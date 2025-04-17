@@ -89,7 +89,7 @@ async function getBotReply(input) {
   // Creator
   const creatorKeywords = ["creator", "who made you", "who created you", "who is your creator", "who developed you"];
   if (creatorKeywords.some(word => input.includes(word))) {
-    return "Mr. Aryaveer Thakur and Mr. Kunal Sood are the creators of me!";
+    return "Aryaveer Thakur and Kunal Sood are the creators of me!";
   }
 
   // Fuzzy matching
