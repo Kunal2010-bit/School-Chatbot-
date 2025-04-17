@@ -10,11 +10,8 @@ const botResponses = {
   "address": "New Shimla, Sector-4.",
   "timings": "Morning assembly is at 8:30 AM. Periods begin at 9:00 AM and school ends at 2:20 PM.",
   "school timings": "Morning assembly is at 8:30 AM. Periods begin at 9:00 AM and school ends at 2:20 PM.",
-  "principal": "Our principal is Mr. Rakesh Kumar Chandel.",
-  "math teacher": "Mr. Kamal Thakur, Vipin Sir, and Yogita Ma'am teach Class 9 Mathematics.",
-  "class 9 maths teacher": "Mr. Kamal Thakur, Vipin Sir, and Yogita Ma'am teach Class 9 Mathematics.",
-  "ai teacher": "Kamlesh Ma'am is the AI teacher.",
-  "it teacher": "Juhi Ma'am teaches IT.",
+  "principal": "Our principal is Rakesh Kumar Chandel.",
+  "subject teacher": "It depends on class to class.",
   "next exam": "Term 1 exams are from 5th May to 15th May.",
   "check result": "Please come with your parents on PTM day and meet the teachers to collect your result.",
   "upcoming holidays": "Independence Day on 15th August and Diwali break in October.",
@@ -130,5 +127,5 @@ async function getBotReply(input) {
     console.log("Google fallback error:", err);
   }
 
-  return "Sorry i am able to answer this queation ,please ask a different question.";
+  return "Sorry, I am not able to get the answer to this question.";
 }
