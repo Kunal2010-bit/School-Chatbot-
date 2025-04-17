@@ -30,7 +30,6 @@ const botResponses = {
   "how many sections": "Each class has 6 sections: A, B, C, D, E, and F.",
   "head boy": "The current head boy is not yet announced, but I will update you soon.",
   "class teacher": "The class teacher for each section varies. You can find details in your class list.",
-  // GK & Fun
   "how many continents": "There are 7 continents on Earth.",
   "capital of france": "The capital of France is Paris.",
   "invented the telephone": "Alexander Graham Bell invented the telephone.",
@@ -59,12 +58,16 @@ function sendMessage() {
 
   appendMessage(userText, "user-message");
   userInput.value = "";
-
   typingIndicator.style.display = "block";
 
-  setTimeout(() => {
+  setTimeout(async () => {
     const reply = getBotReply(userText.toLowerCase());
-    appendMessage(reply, "bot-message");
+    if (reply) {
+      appendMessage(reply, "bot-message");
+    } else {
+      const wikiAnswer = await fetchFromWikipedia(userText);
+      appendMessage(wikiAnswer + " (via Wikipedia)", "bot-message");
+    }
     typingIndicator.style.display = "none";
   }, 800);
 }
@@ -80,37 +83,42 @@ function appendMessage(message, className) {
 function getBotReply(input) {
   input = input.replace(/[^\w\s]/gi, "").toLowerCase();
 
-  // Creator detection
   const creatorKeywords = ["creator", "who made you", "who created you", "who is your creator", "who developed you"];
   if (creatorKeywords.some(word => input.includes(word))) {
-    return "Aryaveer Thakur and Kunal Sood are the creators of me! ⚡";
+    return "Mr. Aryaveer Thakur and Mr. Kunal Sood are the creators of me! ⚡";
   }
 
-  // Greetings
   const greetings = ["hi", "hello", "hey"];
   if (greetings.some(g => input.includes(g))) {
     return "Hey there! How can I help you today?";
   }
 
-  // Advanced fuzzy matching for known responses
   for (let key in botResponses) {
     const keywords = key.split(" ");
     let matchCount = 0;
-
     keywords.forEach(word => {
       if (input.includes(word)) matchCount++;
     });
-
-    // If 60% or more keywords match, accept it
     if (matchCount / keywords.length >= 0.6) {
       return botResponses[key] + " ✨";
     }
   }
 
-  // Fallbacks
-  if (input.includes("who")) return "Hmm, could you tell me who you mean?";
-  if (input.includes("what")) return "Interesting! Can you rephrase your question?";
+  if (input.includes("who")) return null;
+  if (input.includes("what")) return null;
   if (input.length < 4) return "That seems too short. Try asking something longer!";
 
-  return "I didn’t understand that. Could you rephrase? 🧐";
+  return null;
+}
+
+async function fetchFromWikipedia(query) {
+  try {
+    const apiUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`;
+    const response = await fetch(apiUrl);
+    if (!response.ok) throw new Error("No Wikipedia article found.");
+    const data = await response.json();
+    return data.extract ? data.extract : "Sorry, I couldn’t find anything on that.";
+  } catch (error) {
+    return "I couldn't fetch that info right now.";
+  }
 }
