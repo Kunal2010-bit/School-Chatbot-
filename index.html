@@ -3,32 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>School Chatbot</title>
+  <title>DAV Chatbot</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="chatbot-container">
-    <h1 class="title">DAV School Chatbot</h1>
-    
-    <!-- Chat History Button -->
-    <button id="historyBtn" title="View Chat History">⏳</button>
-    
-    <!-- Chatbox -->
-    <div class="chatbox" id="chatbox"></div>
-    
-    <!-- Input -->
-    <div class="input-container">
-      <input type="text" id="userInput" placeholder="Ask me anything..." autocomplete="off" />
-      <button onclick="sendMessage()">Send</button>
+  <div class="chat-container">
+    <div class="chat-header">
+      <h2>DAV School Chatbot</h2>
+      <button id="history-button" title="View Chat History">📜</button>
+    </div>
+    <div id="chat-box" class="chat-box"></div>
+    <div id="typing-indicator" class="typing-indicator">Typing...</div>
+    <div class="input-area">
+      <input type="text" id="user-input" placeholder="Type your message..." />
+      <button id="send-button">Send</button>
     </div>
   </div>
 
-  <!-- Chat History Modal -->
-  <div id="historyModal" class="modal">
+  <!-- History Modal -->
+  <div id="history-modal" class="modal">
     <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Your Chat History</h2>
-      <div id="historyList"></div>
+      <span class="close-button">&times;</span>
+      <h3>Chat History</h3>
+      <div id="history-entries"></div>
     </div>
   </div>
 
