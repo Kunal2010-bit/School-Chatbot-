@@ -58,16 +58,12 @@ function sendMessage() {
 
   appendMessage(userText, "user-message");
   userInput.value = "";
+
   typingIndicator.style.display = "block";
 
   setTimeout(async () => {
-    const reply = getBotReply(userText.toLowerCase());
-    if (reply) {
-      appendMessage(reply, "bot-message");
-    } else {
-      const wikiAnswer = await fetchFromWikipedia(userText);
-      appendMessage(wikiAnswer + " (via Wikipedia)", "bot-message");
-    }
+    const reply = await getBotReply(userText.toLowerCase());
+    appendMessage(reply, "bot-message");
     typingIndicator.style.display = "none";
   }, 800);
 }
@@ -80,22 +76,23 @@ function appendMessage(message, className) {
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-function getBotReply(input) {
+async function getBotReply(input) {
   input = input.replace(/[^\w\s]/gi, "").toLowerCase();
 
-  // Creator detection
-  const creatorKeywords = ["creator", "who made you", "who created you", "who is your creator", "who developed you"];
-  if (creatorKeywords.some(word => input.includes(word))) {
-    return "Mr. Aryaveer Thakur and Mr. Kunal Sood are the creators of me! ⚡";
-  }
-
-  // Greetings
+  // Greeting fix (only match full words like "hi", not "Shimla")
   const greetings = ["hi", "hello", "hey"];
-  if (greetings.some(g => input.includes(g))) {
+  const inputWords = input.split(/\s+/);
+  if (greetings.some(g => inputWords.includes(g))) {
     return "Hey there! How can I help you today?";
   }
 
-  // Fuzzy keyword matching
+  // Creator
+  const creatorKeywords = ["creator", "who made you", "who created you", "who is your creator", "who developed you"];
+  if (creatorKeywords.some(word => input.includes(word))) {
+    return "Mr. Aryaveer Thakur and Mr. Kunal Sood are the creators of me!";
+  }
+
+  // Fuzzy matching
   for (let key in botResponses) {
     const keywords = key.split(" ");
     let matchCount = 0;
@@ -105,28 +102,33 @@ function getBotReply(input) {
     });
 
     if (matchCount / keywords.length >= 0.6) {
-      return botResponses[key] + " ✨";
+      return botResponses[key];
     }
   }
 
-  // Try Wikipedia API for unknown questions (NLP Fallback)
-  return getWikiAnswer(input);
-}
+  // NLP Wikipedia fallback
+  try {
+    const wikiRes = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(input)}`);
+    const wikiData = await wikiRes.json();
 
-function getWikiAnswer(query) {
-  const apiUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`;
-  const xhr = new XMLHttpRequest();
-  xhr.open("GET", apiUrl, false); // Synchronous call for compatibility
-  xhr.send();
-
-  if (xhr.status === 200) {
-    const response = JSON.parse(xhr.responseText);
-    if (response.extract) {
-      return response.extract;
-    } else {
-      return "I couldn't find anything on that. Try rephrasing!";
+    if (wikiData.extract) {
+      return wikiData.extract;
     }
-  } else {
-    return "I couldn't fetch the answer from Wikipedia right now.";
+  } catch (err) {
+    console.log("Wikipedia error:", err);
   }
+
+  // Google fallback (if Wikipedia fails)
+  try {
+    const googleRes = await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(input)}&format=json&no_html=1`);
+    const googleData = await googleRes.json();
+
+    if (googleData.AbstractText) {
+      return googleData.AbstractText;
+    }
+  } catch (err) {
+    console.log("Google fallback error:", err);
+  }
+
+  return "Hmm, I’m still learning. Can you try rephrasing your question?";
 }
