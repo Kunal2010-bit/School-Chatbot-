@@ -1,27 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>School Chatbot</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="chat-container">
+    <div class="chat-header">
+      <h1>D.A.V. Public School Chatbot</h1>
+      <button id="history-btn" title="View Chat History">🕘</button>
+    </div>
     <div id="chat-box" class="chat-box"></div>
     <div class="input-container">
-      <input type="text" id="user-input" placeholder="Ask me anything..." />
-      <button id="send-button">Send</button>
+      <input type="text" id="user-input" placeholder="Ask something..." />
+      <button id="send-btn">Send</button>
     </div>
-    <div id="typing-indicator" class="typing-indicator">...</div>
   </div>
 
-  <!-- History Button and History Container -->
-  <button id="history-btn">History</button>
-  <div id="history-container" class="hidden">
-    <h2>Chat History</h2>
-    <div id="history-list"></div>
-    <button id="close-history">Close</button>
+  <!-- History Modal -->
+  <div id="history-modal" class="modal hidden">
+    <div class="modal-content">
+      <span id="close-history" class="close">&times;</span>
+      <h2>Chat History</h2>
+      <ul id="history-list"></ul>
+    </div>
   </div>
 
   <script src="chat.js"></script>

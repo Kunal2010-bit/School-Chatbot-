@@ -1,88 +1,99 @@
-const userInput = document.getElementById("user-input");
-const sendButton = document.getElementById("send-button");
 const chatBox = document.getElementById("chat-box");
-const typingIndicator = document.getElementById("typing-indicator");
-
+const userInput = document.getElementById("user-input");
+const sendBtn = document.getElementById("send-btn");
 const historyBtn = document.getElementById("history-btn");
-const historyContainer = document.getElementById("history-container");
-const closeHistoryBtn = document.getElementById("close-history");
+const historyModal = document.getElementById("history-modal");
+const closeHistory = document.getElementById("close-history");
 const historyList = document.getElementById("history-list");
 
-let chatHistory = []; // Store history here
+let chatHistory = [];
 
-sendButton.addEventListener("click", function () {
-  sendMessage();
-});
+function appendMessage(sender, text) {
+  const msg = document.createElement("div");
+  msg.classList.add("message", sender);
+  msg.textContent = `${sender === "user" ? "You" : "Bot"}: ${text}`;
+  chatBox.appendChild(msg);
+  chatBox.scrollTop = chatBox.scrollHeight;
 
-userInput.addEventListener("keypress", function (e) {
-  if (e.key === "Enter") {
-    sendMessage();
+  chatHistory.push(`${sender === "user" ? "You" : "Bot"}: ${text}`);
+}
+
+async function fetchAnswerFromDuckDuckGo(query) {
+  const url = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`;
+  const res = await fetch(url);
+  const data = await res.json();
+  return data.AbstractText || data.Answer || "";
+}
+
+async function fetchAnswerFromWikipedia(query) {
+  const res = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`);
+  const data = await res.json();
+  return data.extract || "";
+}
+
+function processQuery(input) {
+  input = input.toLowerCase().trim();
+  const q = input;
+
+  const schoolInfo = {
+    "school name": "DAV Public School New Shimla",
+    "principal": "Rakesh Kumar Chandel",
+    "timings": "School starts with assembly at 8:30 AM, and classes run from 9:00 AM to 2:20 PM.",
+    "ptm": "Results can be collected during the PTM by meeting all teachers.",
+    "exams": "Term 1 exams are scheduled from May 5 to May 15.",
+    "creators": "The chatbot was created by Ayraveer Thakur and Kunal Sood."
+  };
+
+  for (let key in schoolInfo) {
+    if (q.includes(key)) return schoolInfo[key];
   }
-});
 
-historyBtn.addEventListener("click", function () {
-  toggleHistory();
-});
+  if (q.includes("subject teacher") || q.includes("maths teacher") || q.includes("teacher of")) {
+    return "Subject teachers vary depending on class.";
+  }
 
-closeHistoryBtn.addEventListener("click", function () {
-  toggleHistory();
-});
+  return null; // fallback to deep search
+}
 
-function sendMessage() {
-  const userText = userInput.value.trim();
-  if (userText === "") return;
+async function getBotResponse(input) {
+  const directAnswer = processQuery(input);
+  if (directAnswer) return directAnswer;
 
-  appendMessage(userText, "user-message");
+  let answer = await fetchAnswerFromDuckDuckGo(input);
+  if (answer && answer.length > 20) return answer;
+
+  answer = await fetchAnswerFromWikipedia(input);
+  if (answer && answer.length > 20) return answer;
+
+  return "Sorry, I am not able to get the answer to this question.";
+}
+
+sendBtn.addEventListener("click", async () => {
+  const input = userInput.value.trim();
+  if (!input) return;
+
+  appendMessage("user", input);
   userInput.value = "";
 
-  typingIndicator.style.display = "block";
+  const response = await getBotResponse(input);
+  appendMessage("bot", response);
+});
 
-  setTimeout(async () => {
-    const reply = await getBotReply(userText.toLowerCase());
-    appendMessage(reply, "bot-message");
-    typingIndicator.style.display = "none";
-
-    // Store the user input and bot response in history
-    chatHistory.push({ user: userText, bot: reply });
-
-    // Update the history display
-    updateHistory();
-  }, 800);
-}
-
-function appendMessage(message, className) {
-  const messageElement = document.createElement("div");
-  messageElement.className = className;
-  messageElement.innerHTML = message;
-  chatBox.appendChild(messageElement);
-  chatBox.scrollTop = chatBox.scrollHeight;
-}
-
-async function getBotReply(input) {
-  input = input.replace(/[^\w\s]/gi, "").toLowerCase();
-
-  // Your existing bot logic here...
-  // For now, just returning a placeholder response
-  return "This is a placeholder response for now.";
-}
-
-function toggleHistory() {
-  if (historyContainer.style.display === "block") {
-    historyContainer.style.display = "none";
-  } else {
-    historyContainer.style.display = "block";
-  }
-}
-
-function updateHistory() {
-  // Clear current history
+// History Button Logic
+historyBtn.onclick = () => {
   historyList.innerHTML = "";
-
-  // Loop through chat history and append it to the history container
-  chatHistory.forEach((entry, index) => {
-    const historyItem = document.createElement("div");
-    historyItem.className = "history-item";
-    historyItem.innerHTML = `<strong>User:</strong> ${entry.user} <br><strong>Bot:</strong> ${entry.bot}`;
-    historyList.appendChild(historyItem);
+  chatHistory.forEach(entry => {
+    const li = document.createElement("li");
+    li.textContent = entry;
+    historyList.appendChild(li);
   });
-}
+  historyModal.classList.remove("hidden");
+};
+
+closeHistory.onclick = () => {
+  historyModal.classList.add("hidden");
+};
+
+userInput.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") sendBtn.click();
+});
