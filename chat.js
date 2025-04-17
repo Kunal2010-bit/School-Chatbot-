@@ -130,5 +130,5 @@ async function getBotReply(input) {
     console.log("Google fallback error:", err);
   }
 
-  return "Hmm, I’m still learning. Can you try rephrasing your question?";
+  return "Sorry i am able to answer this queation ,please ask a different question.";
 }
