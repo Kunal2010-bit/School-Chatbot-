@@ -83,42 +83,50 @@ function appendMessage(message, className) {
 function getBotReply(input) {
   input = input.replace(/[^\w\s]/gi, "").toLowerCase();
 
+  // Creator detection
   const creatorKeywords = ["creator", "who made you", "who created you", "who is your creator", "who developed you"];
   if (creatorKeywords.some(word => input.includes(word))) {
     return "Mr. Aryaveer Thakur and Mr. Kunal Sood are the creators of me! ⚡";
   }
 
+  // Greetings
   const greetings = ["hi", "hello", "hey"];
   if (greetings.some(g => input.includes(g))) {
     return "Hey there! How can I help you today?";
   }
 
+  // Fuzzy keyword matching
   for (let key in botResponses) {
     const keywords = key.split(" ");
     let matchCount = 0;
+
     keywords.forEach(word => {
       if (input.includes(word)) matchCount++;
     });
+
     if (matchCount / keywords.length >= 0.6) {
       return botResponses[key] + " ✨";
     }
   }
 
-  if (input.includes("who")) return null;
-  if (input.includes("what")) return null;
-  if (input.length < 4) return "That seems too short. Try asking something longer!";
-
-  return null;
+  // Try Wikipedia API for unknown questions (NLP Fallback)
+  return getWikiAnswer(input);
 }
 
-async function fetchFromWikipedia(query) {
-  try {
-    const apiUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`;
-    const response = await fetch(apiUrl);
-    if (!response.ok) throw new Error("No Wikipedia article found.");
-    const data = await response.json();
-    return data.extract ? data.extract : "Sorry, I couldn’t find anything on that.";
-  } catch (error) {
-    return "I couldn't fetch that info right now.";
+function getWikiAnswer(query) {
+  const apiUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`;
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", apiUrl, false); // Synchronous call for compatibility
+  xhr.send();
+
+  if (xhr.status === 200) {
+    const response = JSON.parse(xhr.responseText);
+    if (response.extract) {
+      return response.extract;
+    } else {
+      return "I couldn't find anything on that. Try rephrasing!";
+    }
+  } else {
+    return "I couldn't fetch the answer from Wikipedia right now.";
   }
 }
