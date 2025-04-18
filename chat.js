@@ -14,7 +14,7 @@ const botResponses = {
   "ai teacher": "Kamlesh Ma'am is the AI teacher.",
   "IT teacher": "Juhi Ma'am is the IT teacher.",
   "What is the capital of Himachal Pradesh": "Shimla is the capital of Himachal Pradesh.",
-  "Capital of HP": "Shimla is the capital of Himachal Pradesh.",
+  "Capital of hp": "Shimla is the capital of Himachal Pradesh.",
   "what are you": "I'm a chatbot designed to answer general questions about DAV Public School New Shimla."
   "who is aryaveer": "he is one of the creators of me.",
   "who is Kunal": "he is one of the creators of me.",
