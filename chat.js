@@ -10,8 +10,9 @@ const botResponses = {
   "school name": "Our school is DAV Public School New Shimla.",
   "location": "We are located in New Shimla, Sector-4.",
   "timings": "Morning assembly is at 8:30 AM. Periods begin at 9:00 AM and school ends at 2:20 PM.",
-  "principal": "Our principal is Rakesh Kumar Chandel.",
+  "principal": "Our principal is Mr.Rakesh Kumar Chandel.",
   "ai teacher": "Kamlesh Ma'am is the AI teacher.",
+  "it teacher": "Juhi Ma'am is the IT teacher.",
   "what are you": "I'm a chatbot designed to answer general questions about DAV Public School New Shimla."
 };
 
