@@ -1,7 +1,11 @@
 body {
   margin: 0;
   font-family: 'Courier New', monospace;
-  background-color: black;
+  background-image: url('IMG-20250418-WA0026.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   color: white;
 }
 
@@ -13,6 +17,8 @@ body {
   display: flex;
   flex-direction: column;
   position: relative;
+  backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .neon-title {
@@ -29,7 +35,7 @@ body {
   padding: 10px;
   border: 1px solid #39ff14;
   border-radius: 10px;
-  background-color: #111;
+  background-color: rgba(17, 17, 17, 0.7);
   margin-bottom: 10px;
   position: relative;
 }
@@ -96,7 +102,7 @@ body {
   width: 300px;
   max-height: 400px;
   overflow-y: auto;
-  background-color: #111;
+  background-color: rgba(17, 17, 17, 0.9);
   border: 1px solid #39ff14;
   padding: 10px;
   border-radius: 10px;
