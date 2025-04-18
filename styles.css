@@ -1,58 +1,56 @@
 body {
   margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #0a0a0a;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  font-family: 'Courier New', monospace;
+  background-color: black;
+  color: white;
 }
 
 .chat-container {
-  background-color: #111;
-  border: 2px solid #0ff;
-  border-radius: 15px;
+  width: 100vw;
+  height: 100vh;
   padding: 20px;
-  width: 90%;
-  max-width: 500px;
-  box-shadow: 0 0 20px #0ff;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
 .neon-title {
   text-align: center;
-  font-size: 2rem;
-  color: #0ff;
-  text-shadow: 0 0 5px #0ff, 0 0 10px #0ff;
-  margin-bottom: 15px;
+  color: #39ff14;
+  font-size: 2em;
+  margin-bottom: 10px;
+  text-shadow: 0 0 5px #39ff14, 0 0 10px #39ff14;
 }
 
 .chat-box {
-  height: 300px;
+  flex: 1;
   overflow-y: auto;
-  background-color: #000;
-  border: 1px solid #0ff;
   padding: 10px;
+  border: 1px solid #39ff14;
+  border-radius: 10px;
+  background-color: #111;
   margin-bottom: 10px;
-  border-radius: 10px;
-}
-
-.user-message, .bot-message {
-  margin: 10px 0;
-  padding: 8px 12px;
-  border-radius: 10px;
-  max-width: 80%;
+  position: relative;
 }
 
 .user-message {
-  background-color: #00f2ff44;
-  align-self: flex-end;
   text-align: right;
+  margin: 5px 0;
+  color: #0ff;
 }
 
 .bot-message {
-  background-color: #003e4d;
   text-align: left;
+  margin: 5px 0;
+  color: #fff;
+}
+
+.typing-indicator {
+  font-style: italic;
+  color: #aaa;
+  display: none;
+  margin-bottom: 10px;
 }
 
 .input-area {
@@ -61,31 +59,51 @@ body {
 }
 
 #user-input {
-  flex-grow: 1;
+  flex: 1;
   padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #0ff;
-  background-color: #111;
-  color: #fff;
+  background-color: #222;
+  border: 1px solid #39ff14;
+  border-radius: 5px;
+  color: white;
 }
 
 #send-button {
   padding: 10px 20px;
+  background-color: #39ff14;
+  color: black;
   border: none;
-  background-color: #0ff;
-  color: #000;
-  font-weight: bold;
-  border-radius: 10px;
+  border-radius: 5px;
   cursor: pointer;
 }
 
-#send-button:hover {
-  background-color: #00ffffaa;
+.history-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background-color: transparent;
+  border: 2px solid #39ff14;
+  color: #39ff14;
+  font-size: 20px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.typing-indicator {
-  font-style: italic;
-  font-size: 0.9em;
-  margin-bottom: 5px;
-  color: #aaa;
+.history-popup {
+  position: absolute;
+  top: 70px;
+  right: 20px;
+  width: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: #111;
+  border: 1px solid #39ff14;
+  padding: 10px;
+  border-radius: 10px;
+  color: white;
+  z-index: 99;
+}
+
+.hidden {
+  display: none;
 }
