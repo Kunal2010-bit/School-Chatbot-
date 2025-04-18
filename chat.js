@@ -13,7 +13,14 @@ const botResponses = {
   "principal": "Our principal is Mr. Rakesh Kumar Chandel.",
   "ai teacher": "Kamlesh Ma'am is the AI teacher.",
   "IT teacher": "Juhi Ma'am is the IT teacher.",
+  "What is the capital of Himachal Pradesh": "Shimla is the capital of Himachal Pradesh.",
+  "Capital of HP": "Shimla is the capital of Himachal Pradesh.",
   "what are you": "I'm a chatbot designed to answer general questions about DAV Public School New Shimla."
+  "who is aryaveer": "he is one of the creators of me.",
+  "who is Kunal": "he is one of the creators of me.",
+  "who is mannat": "she is one of the creators of me.",
+  "languages spoken in himachal pradesh": "Kangri and pahadi are the main languages spoken in himachal pradesh.",
+  "traditional dance of himachal pradesh": "Nati is the traditional dance done in himachal Pradesh but it varies from place to place."
 };
 
 sendButton.addEventListener("click", sendMessage);
