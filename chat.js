@@ -58,7 +58,7 @@ async function getBotReply(input) {
 
   const creatorKeywords = ["creator", "who made you", "who created you"];
   if (creatorKeywords.some(k => input.includes(k))) {
-    return "Ayraveer Thakur and Kunal Sood are the creators of me!";
+    return "Ayraveer Thakur,Mannat and Kunal Sood are the creators of me!";
   }
 
   for (let key in botResponses) {
