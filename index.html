@@ -3,29 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Neon School Chatbot</title>
+  <title>DAV Chatbot</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="container">
+  <div class="chat-container">
+    <h1 class="neon-title">DAV Chatbot</h1>
+    
+    <!-- History Button (Top Right Inside Chat Box) -->
+    <button id="history-button" class="history-btn">☰</button>
+    
     <div id="chat-box" class="chat-box"></div>
-    <div id="typing-indicator" class="typing-indicator" style="display: none;">Bot is typing...</div>
-    <div class="input-container">
-      <input type="text" id="user-input" placeholder="Ask me anything..." />
+    <div id="typing-indicator" class="typing-indicator">Typing...</div>
+    
+    <div class="input-area">
+      <input type="text" id="user-input" placeholder="Type your message..." />
       <button id="send-button">Send</button>
     </div>
-  </div>
-
-  <!-- Floating History Button -->
-  <button id="history-button" title="Chat History">H</button>
-
-  <!-- Hidden Chat History Layer -->
-  <div id="history-layer" class="history-layer">
-    <div class="history-header">
-      <span>Chat History</span>
-      <button id="close-history">X</button>
+    
+    <!-- History Popup -->
+    <div id="history-popup" class="history-popup hidden">
+      <h3>Chat History</h3>
+      <div id="history-content"></div>
     </div>
-    <div id="history-content" class="history-content"></div>
   </div>
 
   <script src="chat.js"></script>
