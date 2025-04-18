@@ -3,28 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DAV Chatbot</title>
+  <title>D.A.V Chatbot</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="chat-container">
-    <h1 class="neon-title">DAV Chatbot</h1>
-    
-    <!-- History Button (Top Right Inside Chat Box) -->
-    <button id="history-button" class="history-btn">☰</button>
-    
-    <div id="chat-box" class="chat-box"></div>
-    <div id="typing-indicator" class="typing-indicator">Typing...</div>
-    
-    <div class="input-area">
-      <input type="text" id="user-input" placeholder="Type your message..." />
-      <button id="send-button">Send</button>
+  <div class="chatbot-container">
+    <div class="chatbot-header">
+      <h1>D.A.V Chatbot</h1>
+      <button class="history-btn" onclick="toggleHistory()">History</button>
     </div>
-    
-    <!-- History Popup -->
-    <div id="history-popup" class="history-popup hidden">
-      <h3>Chat History</h3>
-      <div id="history-content"></div>
+
+    <div class="chatbox" id="chatbox">
+      <!-- Messages will appear here -->
+    </div>
+
+    <div class="input-area">
+      <input type="text" id="userInput" placeholder="Type your question..." onkeydown="handleKey(event)">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <div class="history-modal" id="historyModal">
+    <div class="modal-content">
+      <span class="close" onclick="toggleHistory()">&times;</span>
+      <h2>Chat History</h2>
+      <div id="historyContent"></div>
     </div>
   </div>
 
