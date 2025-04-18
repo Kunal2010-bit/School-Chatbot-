@@ -2,110 +2,115 @@ const userInput = document.getElementById("user-input");
 const sendButton = document.getElementById("send-button");
 const chatBox = document.getElementById("chat-box");
 const typingIndicator = document.getElementById("typing-indicator");
-const historyBtn = document.getElementById("history-button");
-const historyPopup = document.getElementById("history-popup");
-const historyContent = document.getElementById("history-content");
 
 const botResponses = {
   "school name": "Our school is DAV Public School New Shimla.",
+  "name of the school": "Our school is DAV Public School New Shimla.",
   "location": "We are located in New Shimla, Sector-4.",
+  "address": "New Shimla, Sector-4.",
   "timings": "Morning assembly is at 8:30 AM. Periods begin at 9:00 AM and school ends at 2:20 PM.",
-  "principal": "Our principal is Rakesh Kumar Chandel.",
+  "school timings": "Morning assembly is at 8:30 AM. Periods begin at 9:00 AM and school ends at 2:20 PM.",
+  "principal": "Our principal is Mr. Rakesh Kumar Chandel.",
+  "math teacher": "Mr. Kamal Thakur, Vipin Sir, and Yogita Ma'am teach Class 9 Mathematics.",
+  "class 9 maths teacher": "Mr. Kamal Thakur, Vipin Sir, and Yogita Ma'am teach Class 9 Mathematics.",
   "ai teacher": "Kamlesh Ma'am is the AI teacher.",
-  "what are you": "I'm a chatbot designed to answer general questions about DAV Public School New Shimla."
+  "it teacher": "Juhi Ma'am teaches IT.",
+  "next exam": "Term 1 exams are from 5th May to 15th May.",
+  "check result": "Please come with your parents on PTM day and meet the teachers to collect your result.",
+  "upcoming holidays": "Independence Day on 15th August and Diwali break in October.",
+  "mobile phone": "Mobile phones are not allowed in school.",
+  "apply for admission": "You can apply online through our school website or collect the form from the front office.",
+  "admission documents": "Birth certificate, previous report card, and transfer certificate.",
+  "subjects in class 10": "English, Math, Science, Social Studies, Hindi, and Computer Science.",
+  "library": "Yes, our library has a great collection of books and digital resources.",
+  "sports": "Yes, we have football, basketball, cricket, and athletics.",
+  "clubs": "Science Club, Drama Club, Robotics Club, and Debate Club.",
+  "transport": "Yes, we have school buses for most local areas.",
+  "how many students": "There are more than 2000 students in the school.",
+  "how many sections": "Each class has 6 sections: A, B, C, D, E, and F.",
+  "head boy": "The current head boy is not yet announced, but I will update you soon.",
+  "class teacher": "The class teacher for each section varies. You can find details in your class list.",
+  // GK & Fun
+  "how many continents": "There are 7 continents on Earth.",
+  "capital of france": "The capital of France is Paris.",
+  "invented the telephone": "Alexander Graham Bell invented the telephone.",
+  "joke": "Why don't skeletons fight each other? They don't have the guts!",
+  "favorite color": "I love blue, it’s calm and peaceful.",
+  "how old are you": "I am an AI, so I don't have an age like humans do!",
+  "fun fact": "Did you know that honey never spoils? It's still edible after thousands of years!",
+  "weather": "I can’t check the weather right now, but try a weather app!",
+  "president of india": "The President of India is Droupadi Murmu.",
+  "national animal": "The national animal of India is the Bengal tiger.",
 };
 
-sendButton.addEventListener("click", sendMessage);
-userInput.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") sendMessage();
+sendButton.addEventListener("click", function () {
+  sendMessage();
+});
+
+userInput.addEventListener("keypress", function (e) {
+  if (e.key === "Enter") {
+    sendMessage();
+  }
 });
 
 function sendMessage() {
   const userText = userInput.value.trim();
-  if (!userText) return;
+  if (userText === "") return;
 
   appendMessage(userText, "user-message");
   userInput.value = "";
+
   typingIndicator.style.display = "block";
 
-  saveToHistory(`You: ${userText}`);
-
-  setTimeout(async () => {
-    const reply = await getBotReply(userText.toLowerCase());
+  setTimeout(() => {
+    const reply = getBotReply(userText.toLowerCase());
     appendMessage(reply, "bot-message");
     typingIndicator.style.display = "none";
-    saveToHistory(`Bot: ${reply}`);
   }, 800);
 }
 
 function appendMessage(message, className) {
-  const msg = document.createElement("div");
-  msg.className = className;
-  msg.innerHTML = message;
-  chatBox.appendChild(msg);
+  const messageElement = document.createElement("div");
+  messageElement.className = className;
+  messageElement.innerHTML = message;
+  chatBox.appendChild(messageElement);
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-async function getBotReply(input) {
+function getBotReply(input) {
   input = input.replace(/[^\w\s]/gi, "").toLowerCase();
 
+  // Creator detection
+  const creatorKeywords = ["creator", "who made you", "who created you", "who is your creator", "who developed you"];
+  if (creatorKeywords.some(word => input.includes(word))) {
+    return "Mr. Aryaveer Thakur and Mr. Kunal Sood are the creators of me! ⚡";
+  }
+
+  // Greetings
   const greetings = ["hi", "hello", "hey"];
-  const words = input.split(/\s+/);
-  if (greetings.some(g => words.includes(g))) {
+  if (greetings.some(g => input.includes(g))) {
     return "Hey there! How can I help you today?";
   }
 
-  const creatorKeywords = ["creator", "who made you", "who created you"];
-  if (creatorKeywords.some(k => input.includes(k))) {
-    return "Ayraveer Thakur,Mannat and Kunal Sood are the creators of me!";
-  }
-
+  // Advanced fuzzy matching for known responses
   for (let key in botResponses) {
-    if (input.includes(key)) return botResponses[key];
-  }
+    const keywords = key.split(" ");
+    let matchCount = 0;
 
-  // Fallback: search externally (Wikipedia, DuckDuckGo, etc.)
-  const endpoints = [
-    `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(input)}`,
-    `https://api.duckduckgo.com/?q=${encodeURIComponent(input)}&format=json&no_html=1`,
-  ];
-
-  for (let url of endpoints) {
-    try {
-      const res = await fetch(url);
-      const data = await res.json();
-      if (data.extract) return data.extract;
-      if (data.AbstractText) return data.AbstractText;
-    } catch (e) {}
-  }
-
-  return "Sorry, I couldn't find an answer to this question.";
-}
-
-// Save chat to localStorage
-function saveToHistory(message) {
-  let history = JSON.parse(localStorage.getItem("chatHistory") || "[]");
-  history.push(message);
-  localStorage.setItem("chatHistory", JSON.stringify(history));
-}
-
-// Toggle popup
-historyBtn.addEventListener("click", () => {
-  historyPopup.classList.toggle("hidden");
-  loadHistory();
-});
-
-// Load chat history
-function loadHistory() {
-  historyContent.innerHTML = "";
-  const history = JSON.parse(localStorage.getItem("chatHistory") || "[]");
-  if (history.length === 0) {
-    historyContent.innerHTML = "<i>No chat history yet.</i>";
-  } else {
-    history.forEach(msg => {
-      const div = document.createElement("div");
-      div.textContent = msg;
-      historyContent.appendChild(div);
+    keywords.forEach(word => {
+      if (input.includes(word)) matchCount++;
     });
+
+    // If 60% or more keywords match, accept it
+    if (matchCount / keywords.length >= 0.6) {
+      return botResponses[key] + " ✨";
+    }
   }
+
+  // Fallbacks
+  if (input.includes("who")) return "Hmm, could you tell me who you mean?";
+  if (input.includes("what")) return "Interesting! Can you rephrase your question?";
+  if (input.length < 4) return "That seems too short. Try asking something longer!";
+
+  return "I didn’t understand that. Could you rephrase? 🧐";
 }
