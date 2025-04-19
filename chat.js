@@ -56,7 +56,7 @@ function appendMessage(message, className) {
 
   if (className === "bot-message") {
     const botImage = document.createElement("img");
-    botImage.src = "a pale black dark type background for a chatbot.png";
+    botImage.src = "bot.png";
     botImage.alt = "Bot";
     botImage.className = "bot-image";
     msgContainer.appendChild(botImage);
