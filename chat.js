@@ -62,7 +62,7 @@ function appendMessage(message, className) {
 
   if (className === "bot-message") {
     const botImg = document.createElement("img");
-    botImg.src = " botImg.src ="a%20pale%20black%20dark%20type%20background%20for%20a%20chatbot.png";"; // Make sure bot.png is in the same folder
+    botImg.src = " botImg.src ="bot.png"; // Make sure bot.png is in the same folder
     botImg.alt = "Bot";
     botImg.classList.add("bot-image");
     msgContainer.appendChild(botImg);
