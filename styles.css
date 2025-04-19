@@ -105,10 +105,20 @@ body {
 .hidden {
   display: none;
 }
+
 .message-container {
   display: flex;
   align-items: flex-start;
   margin-bottom: 10px;
+}
+
+.bot-message {
+  flex-direction: row;
+}
+
+.user-message {
+  justify-content: flex-end;
+  flex-direction: row-reverse;
 }
 
 .bot-message .bot-image {
@@ -125,4 +135,9 @@ body {
   padding: 8px 12px;
   border-radius: 12px;
   max-width: 70%;
+}
+
+.message-text.user {
+  background-color: #003366;
+  color: white;
 }
