@@ -1,58 +1,112 @@
+const userInput = document.getElementById("user-input");
+const sendButton = document.getElementById("send-button");
 const chatBox = document.getElementById("chat-box");
-const inputField = document.getElementById("user-input");
-const sendBtn = document.getElementById("send-btn");
+const typingIndicator = document.getElementById("typing-indicator");
+const historyBtn = document.getElementById("history-button");
+const historyPopup = document.getElementById("history-popup");
+const historyContent = document.getElementById("history-content");
 
-sendBtn.addEventListener("click", handleUserInput);
-inputField.addEventListener("keypress", function (e) {
-  if (e.key === "Enter") handleUserInput();
+const botResponses = {
+  "school name": "Our school is DAV Public School New Shimla.",
+  "location": "We are located in New Shimla, Sector-4.",
+  "timings": "Morning assembly is at 8:30 AM. Periods begin at 9:00 AM and school ends at 2:20 PM.",
+  "principal": "Our principal is Mr. Rakesh Kumar Chandel.",
+  "ai teacher": "Kamlesh Ma'am is the AI teacher.",
+  "IT teacher": "Juhi Ma'am is the IT teacher.",
+  "what are you": "I'm a chatbot designed to answer general questions about DAV Public School New Shimla."
+};
+
+sendButton.addEventListener("click", sendMessage);
+userInput.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") sendMessage();
 });
 
-function handleUserInput() {
-  const userInput = inputField.value.trim();
-  if (!userInput) return;
+function sendMessage() {
+  const userText = userInput.value.trim();
+  if (!userText) return;
 
-  appendMessage(userInput, "user-message");
-  inputField.value = "";
-  setTimeout(() => generateBotResponse(userInput), 500);
+  appendMessage(userText, "user-message");
+  userInput.value = "";
+  typingIndicator.style.display = "block";
+
+  saveToHistory(`You: ${userText}`);
+
+  setTimeout(async () => {
+    const reply = await getBotReply(userText.toLowerCase());
+    appendMessage(reply, "bot-message");
+    typingIndicator.style.display = "none";
+    saveToHistory(`Bot: ${reply}`);
+  }, 800);
 }
 
 function appendMessage(message, className) {
-  const msgContainer = document.createElement("div");
-  msgContainer.className = "message-container " + className;
-
-  if (className === "bot-message") {
-    const botImage = document.createElement("img");
-    botImage.src = "bot.png";
-    botImage.alt = "Bot";
-    botImage.className = "bot-image";
-    msgContainer.appendChild(botImage);
-  }
-
   const msg = document.createElement("div");
-  msg.className = "message-text";
+  msg.className = className;
   msg.innerHTML = message;
-  msgContainer.appendChild(msg);
-
-  chatBox.appendChild(msgContainer);
+  chatBox.appendChild(msg);
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-function generateBotResponse(userInput) {
-  const input = userInput.toLowerCase();
+async function getBotReply(input) {
+  input = input.replace(/[^\w\s]/gi, "").toLowerCase();
 
-  let response = "Sorry, I didn't understand that.";
-
-  if (input.includes("hello") || input.includes("hi")) {
-    response = "Hello! How can I assist you today?";
-  } else if (input.includes("capital of himachal")) {
-    response = "The capital of Himachal Pradesh is Shimla, and Dharamshala is the winter capital.";
-  } else if (input.includes("how many classes")) {
-    response = "There are 16 classes in our school, from Pre-Nursery to 12th, including LKG and UKG.";
-  } else if (input.includes("toppers")) {
-    response = "Devika Kainthla topped Humanities with 98.2%, Aakarshita Alok Sood topped Science with 98%, and Vedish Chauhan led Commerce with 94.6%.";
-  } else if (input.includes("aryaveer")) {
-    response = "Aryaveer is one of the creators of me, your school chatbot!";
+  const greetings = ["hi", "hello", "hey"];
+  const words = input.split(/\s+/);
+  if (greetings.some(g => words.includes(g))) {
+    return "Hey there! How can I help you today?";
   }
 
-  appendMessage(response, "bot-message");
+  const creatorKeywords = ["creator", "who made you", "who created you"];
+  if (creatorKeywords.some(k => input.includes(k))) {
+    return "Ayraveer Thakur,Mannat and Kunal Sood are the creators of me!";
+  }
+
+  for (let key in botResponses) {
+    if (input.includes(key)) return botResponses[key];
+  }
+
+  // Fallback: search externally (Wikipedia, DuckDuckGo, etc.)
+  const endpoints = [
+    `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(input)}`,
+    `https://api.duckduckgo.com/?q=${encodeURIComponent(input)}&format=json&no_html=1`,
+  ];
+
+  for (let url of endpoints) {
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      if (data.extract) return data.extract;
+      if (data.AbstractText) return data.AbstractText;
+    } catch (e) {}
+  }
+
+  return "Sorry, I couldn't find an answer to this question.";
+}
+
+// Save chat to localStorage
+function saveToHistory(message) {
+  let history = JSON.parse(localStorage.getItem("chatHistory") || "[]");
+  history.push(message);
+  localStorage.setItem("chatHistory", JSON.stringify(history));
+}
+
+// Toggle popup
+historyBtn.addEventListener("click", () => {
+  historyPopup.classList.toggle("hidden");
+  loadHistory();
+});
+
+// Load chat history
+function loadHistory() {
+  historyContent.innerHTML = "";
+  const history = JSON.parse(localStorage.getItem("chatHistory") || "[]");
+  if (history.length === 0) {
+    historyContent.innerHTML = "<i>No chat history yet.</i>";
+  } else {
+    history.forEach(msg => {
+      const div = document.createElement("div");
+      div.textContent = msg;
+      historyContent.appendChild(div);
+    });
+  }
 }
