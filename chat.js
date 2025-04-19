@@ -55,7 +55,7 @@ function sendMessage() {
 
   chatBox.appendChild(msgContainer);
   chatBox.scrollTop = chatBox.scrollHeight;
-}
+
 
   saveToHistory(`You: ${userText}`);
 
