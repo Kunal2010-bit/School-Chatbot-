@@ -12,8 +12,19 @@ const botResponses = {
   "timings": "Morning assembly is at 8:30 AM. Periods begin at 9:00 AM and school ends at 2:20 PM.",
   "principal": "Our principal is Mr. Rakesh Kumar Chandel.",
   "ai teacher": "Kamlesh Ma'am is the AI teacher.",
-  "IT teacher": "Juhi Ma'am is the IT teacher.",
-  "what are you": "I'm a chatbot designed to answer general questions about DAV Public School New Shimla."
+  "it teacher": "Juhi Ma'am is the IT teacher.",
+  "what are you": "I'm a chatbot designed to answer general questions about DAV Public School New Shimla.",
+  "how many classes": "There are 16 classes in our school, from Pre-Nursery to Class 12 including LKG and UKG.",
+  "toppers": "Devika Kainthla topped Humanities with 98.2%, Aakarshita Alok Sood topped Science with 98%, and Vedish Chauhan topped Commerce with 94.6%.",
+  "who is aryaveer": "Aryaveer is one of the creators of me!",
+  "who is kunal": "Kunal Sood is also one of the creators of me!",
+  "who is mannat": "Mannat is one of the amazing creators of me too!",
+  "capital of himachal": "The capital of Himachal Pradesh is Shimla, and Dharamshala serves as the winter capital.",
+  "languages spoken in himachal": "Languages spoken in Himachal Pradesh include Hindi, Pahari, and Kangri.",
+  "famous places in himachal": "Some famous places in Himachal are Manali, Shimla, Dharamshala, Dalhousie, and Spiti Valley.",
+  "state animal of himachal": "The state animal of Himachal Pradesh is the Snow Leopard.",
+  "state flower of himachal": "The state flower is Pink Rhododendron.",
+  "state tree of himachal": "The state tree is Deodar Cedar."
 };
 
 sendButton.addEventListener("click", sendMessage);
@@ -41,30 +52,28 @@ function sendMessage() {
 
 function appendMessage(message, className) {
   const msgContainer = document.createElement("div");
-  msgContainer.className = "message-container " + className;
+  msgContainer.classList.add("message-wrapper");
+
+  const msgBubble = document.createElement("div");
+  msgBubble.classList.add("message", className);
+  msgBubble.innerHTML = message;
 
   if (className === "bot-message") {
-    const botImage = document.createElement("img");
-    botImage.src = "a pale black dark type background for a chatbot.png";
-    botImage.alt = "Bot";
-    botImage.className = "bot-image";
-    msgContainer.appendChild(botImage);
-
-    const msg = document.createElement("div");
-    msg.className = "message-text";
-    msg.innerHTML = message;
-    msgContainer.appendChild(msg);
-
+    const botImg = document.createElement("img");
+    botImg.src = "bot.png";
+    botImg.alt = "Bot";
+    botImg.classList.add("bot-image");
+    msgContainer.appendChild(botImg);
+    msgContainer.appendChild(msgBubble);
   } else {
-    const msg = document.createElement("div");
-    msg.className = "message-text user";
-    msg.innerHTML = message;
-    msgContainer.appendChild(msg);
+    msgContainer.classList.add("user-align");
+    msgContainer.appendChild(msgBubble);
   }
 
   chatBox.appendChild(msgContainer);
   chatBox.scrollTop = chatBox.scrollHeight;
-} 
+}
+
 async function getBotReply(input) {
   input = input.replace(/[^\w\s]/gi, "").toLowerCase();
 
@@ -76,17 +85,16 @@ async function getBotReply(input) {
 
   const creatorKeywords = ["creator", "who made you", "who created you"];
   if (creatorKeywords.some(k => input.includes(k))) {
-    return "Ayraveer Thakur,Mannat and Kunal Sood are the creators of me!";
+    return "Aryaveer Thakur, Mannat, and Kunal Sood are the creators of me!";
   }
 
   for (let key in botResponses) {
     if (input.includes(key)) return botResponses[key];
   }
 
-  // Fallback: search externally (Wikipedia, DuckDuckGo, etc.)
   const endpoints = [
     `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(input)}`,
-    `https://api.duckduckgo.com/?q=${encodeURIComponent(input)}&format=json&no_html=1`,
+    `https://api.duckduckgo.com/?q=${encodeURIComponent(input)}&format=json&no_html=1`
   ];
 
   for (let url of endpoints) {
