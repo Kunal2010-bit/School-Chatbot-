@@ -105,3 +105,39 @@ body {
 .hidden {
   display: none;
 }
+
+.message-container {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.bot-message {
+  flex-direction: row;
+}
+
+.user-message {
+  justify-content: flex-end;
+  flex-direction: row-reverse;
+}
+
+.bot-message .bot-image {
+  width: 35px;
+  height: 35px;
+  margin-right: 10px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.message-text {
+  background-color: #1f1f1f;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 12px;
+  max-width: 70%;
+}
+
+.message-text.user {
+  background-color: #003366;
+  color: white;
+}
