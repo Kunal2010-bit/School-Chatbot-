@@ -36,9 +36,26 @@ function sendMessage() {
   const userText = userInput.value.trim();
   if (!userText) return;
 
-  appendMessage(userText, "user-message");
-  userInput.value = "";
-  typingIndicator.style.display = "block";
+  function appendMessage(message, className) {
+  const msgContainer = document.createElement("div");
+  msgContainer.className = "message-container " + className;
+
+  if (className === "bot-message") {
+    const botImage = document.createElement("img");
+    botImage.src = "a pale black dark type background for a chatbot.png";
+    botImage.alt = "Bot";
+    botImage.className = "bot-image";
+    msgContainer.appendChild(botImage);
+  }
+
+  const msg = document.createElement("div");
+  msg.className = "message-text";
+  msg.innerHTML = message;
+  msgContainer.appendChild(msg);
+
+  chatBox.appendChild(msgContainer);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
 
   saveToHistory(`You: ${userText}`);
 
