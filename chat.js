@@ -13,15 +13,7 @@ const botResponses = {
   "principal": "Our principal is Mr. Rakesh Kumar Chandel.",
   "ai teacher": "Kamlesh Ma'am is the AI teacher.",
   "IT teacher": "Juhi Ma'am is the IT teacher.",
-  "what are you": "I'm a chatbot designed to answer general questions about DAV Public School New Shimla.",
-  "how many classes study in our school": "There are 16 classes from Pre-Nursery to 12th including LKG and UKG.",
-  "some toppers of our school": "Devika Kainthla (Humanities - 98.2%), Aakarshita Alok Sood (Science - 98%), Vedish Chauhan (Commerce - 94.6%).",
-  "who is aryaveer": "Aryaveer Thakur is one of the creators of me!",
-  "who is kunal": "Kunal Sood is one of the creators of me!",
-  "who is mannat": "Mannat is one of the creators of me!",
-  "himachal capital": "The capital of Himachal Pradesh is Shimla (Summer) and Dharamshala (Winter).",
-  "languages spoken in himachal": "The main languages spoken in Himachal Pradesh are Hindi and Pahari.",
-  "shimla famous for": "Shimla is famous for its colonial architecture, scenic beauty, and as the former summer capital of British India."
+  "what are you": "I'm a chatbot designed to answer general questions about DAV Public School New Shimla."
 };
 
 sendButton.addEventListener("click", sendMessage);
@@ -36,29 +28,21 @@ function sendMessage() {
   appendMessage(userText, "user-message");
   userInput.value = "";
   typingIndicator.style.display = "block";
+
   saveToHistory(`You: ${userText}`);
 
   setTimeout(async () => {
     const reply = await getBotReply(userText.toLowerCase());
-    appendMessage(reply, "bot-message", true);
+    appendMessage(reply, "bot-message");
     typingIndicator.style.display = "none";
     saveToHistory(`Bot: ${reply}`);
   }, 800);
 }
 
-function appendMessage(message, className, isBot = false) {
+function appendMessage(message, className) {
   const msg = document.createElement("div");
   msg.className = className;
-
-  if (isBot) {
-    msg.innerHTML = `
-      <img src="bot.png" alt="Bot" class="bot-img">
-      <span>${message}</span>
-    `;
-  } else {
-    msg.innerHTML = `<span>${message}</span>`;
-  }
-
+  msg.innerHTML = message;
   chatBox.appendChild(msg);
   chatBox.scrollTop = chatBox.scrollHeight;
 }
@@ -74,14 +58,14 @@ async function getBotReply(input) {
 
   const creatorKeywords = ["creator", "who made you", "who created you"];
   if (creatorKeywords.some(k => input.includes(k))) {
-    return "Aryaveer Thakur, Mannat and Kunal Sood are the creators of me!";
+    return "Ayraveer Thakur,Mannat and Kunal Sood are the creators of me!";
   }
 
   for (let key in botResponses) {
     if (input.includes(key)) return botResponses[key];
   }
 
-  // Fallback search
+  // Fallback: search externally (Wikipedia, DuckDuckGo, etc.)
   const endpoints = [
     `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(input)}`,
     `https://api.duckduckgo.com/?q=${encodeURIComponent(input)}&format=json&no_html=1`,
@@ -99,17 +83,20 @@ async function getBotReply(input) {
   return "Sorry, I couldn't find an answer to this question.";
 }
 
+// Save chat to localStorage
 function saveToHistory(message) {
   let history = JSON.parse(localStorage.getItem("chatHistory") || "[]");
   history.push(message);
   localStorage.setItem("chatHistory", JSON.stringify(history));
 }
 
+// Toggle popup
 historyBtn.addEventListener("click", () => {
   historyPopup.classList.toggle("hidden");
   loadHistory();
 });
 
+// Load chat history
 function loadHistory() {
   historyContent.innerHTML = "";
   const history = JSON.parse(localStorage.getItem("chatHistory") || "[]");
