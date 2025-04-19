@@ -40,13 +40,31 @@ function sendMessage() {
 }
 
 function appendMessage(message, className) {
-  const msg = document.createElement("div");
-  msg.className = className;
-  msg.innerHTML = message;
-  chatBox.appendChild(msg);
-  chatBox.scrollTop = chatBox.scrollHeight;
-}
+  const msgContainer = document.createElement("div");
+  msgContainer.className = "message-container " + className;
 
+  if (className === "bot-message") {
+    const botImage = document.createElement("img");
+    botImage.src = "a pale black dark type background for a chatbot.png";
+    botImage.alt = "Bot";
+    botImage.className = "bot-image";
+    msgContainer.appendChild(botImage);
+
+    const msg = document.createElement("div");
+    msg.className = "message-text";
+    msg.innerHTML = message;
+    msgContainer.appendChild(msg);
+
+  } else {
+    const msg = document.createElement("div");
+    msg.className = "message-text user";
+    msg.innerHTML = message;
+    msgContainer.appendChild(msg);
+  }
+
+  chatBox.appendChild(msgContainer);
+  chatBox.scrollTop = chatBox.scrollHeight;
+} 
 async function getBotReply(input) {
   input = input.replace(/[^\w\s]/gi, "").toLowerCase();
 
