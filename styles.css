@@ -32,10 +32,17 @@ body {
   position: relative;
 }
 
+.user-align {
+  justify-content: flex-end;
+  flex-direction: row-reverse;
+}
+
 .user-message {
+  background-color: #003366;
+  color: white;
+  margin-left: 10px;
+  margin-right: 0;
   text-align: right;
-  margin: 5px 0;
-  color: #0ff;
 }
 
 .bot-message {
