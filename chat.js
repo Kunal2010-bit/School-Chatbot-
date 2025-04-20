@@ -28,7 +28,7 @@ const botResponses = {
   "what are you": "I am a chatbot designed to answer general questions about our school and the whole world,you can ask me any defination in the form like-School,country,house,etc...",
   "full form of D.A.V.": "Dayanand Anglo Vedic.",
   "How many houses are there is the school": "there are six houses in the school i.e Gandhi,Shoka,Hansraj,Nehru,Tagore and Subhash.",
-  "how many teachers are there in the school,": "there are more than 90 teachers in the school."
+  "how many teachers are there in the school": "there are more than 90 teachers in the school."
 };
 
 sendButton.addEventListener("click", sendMessage);
