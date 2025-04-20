@@ -25,6 +25,7 @@ const botResponses = {
   "capital of india": "The capital of India is New Delhi.",
   "languages in india": "India has 22 official languages. Hindi and English are widely spoken.",
   "population of himachal": "As of 2023, Himachal Pradesh has an estimated population of about 7.5 million."
+  "what are you": "I am a chatbot designed to answer general questions about our school and the whole world,you can ask me any defination in the form like-School,country,house,etc...",
 };
 
 sendButton.addEventListener("click", sendMessage);
