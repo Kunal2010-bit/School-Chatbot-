@@ -26,8 +26,10 @@ const botResponses = {
   "languages in india": "India has 22 official languages. Hindi and English are widely spoken.",
   "population of himachal": "As of 2023, Himachal Pradesh has an estimated population of about 7.5 million.",
   "what are you": "I am a chatbot designed to answer general questions about our school and the whole world,you can ask me any defination in the form like-School,country,house,etc...",
-  "full form of D.A.V.": "Dayanand Anglo Vedic."
-  };
+  "full form of D.A.V.": "Dayanand Anglo Vedic.",
+  "How many houses are there is the school": "there are six houses in the school i.e Gandhi,Shoka,Hansraj,Nehru,Tagore and Subhash.",
+  "how many teachers are there in the school,": "there are more than 90 teachers in the school."
+};
 
 sendButton.addEventListener("click", sendMessage);
 userInput.addEventListener("keypress", (e) => {
