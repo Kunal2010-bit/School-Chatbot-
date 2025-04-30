@@ -6,7 +6,7 @@ const historyBtn = document.getElementById("history-button");
 const historyPopup = document.getElementById("history-popup");
 const historyContent = document.getElementById("history-content");
 
-// School database (detailed Q&A)
+// School Q&A
 const botResponses = {
   "school name": "Our school is DAV Public School New Shimla.",
   "founder of dav": "The DAV institutions were founded in 1886 by the Arya Samaj. The founder is Mahatma Hansraj.",
@@ -36,25 +36,26 @@ const botResponses = {
   "website": "The official website is http://davnewshimla.in/"
 };
 
-// Greetings, emotional responses & casual chat
+// Chat tone
 const casualReplies = {
   greetings: ["hi", "hello", "hey"],
   goodbyes: ["bye", "goodbye", "see ya"],
   thanks: ["thanks", "thank you"],
   emotions: {
-    happy: ["great!", "awesome!", "glad to hear that!"],
+    happy: ["That's great to hear!", "Awesome!", "Glad to hear that!"],
     sad: ["I'm here if you want to talk.", "Everything will be okay."],
     angry: ["Take a deep breath, I'm with you."],
     confused: ["Let me try to help you out."]
   },
   default: [
     "That's interesting!",
-    "Can you tell me more?",
-    "Hmm, I'm learning with you!",
+    "Hmm, can you tell me more?",
+    "I’m learning with you!",
     "That's cool!"
   ]
 };
 
+// Events
 sendButton.addEventListener("click", sendMessage);
 userInput.addEventListener("keypress", (e) => {
   if (e.key === "Enter") sendMessage();
@@ -101,10 +102,10 @@ function appendMessage(message, className) {
 async function getBotReply(inputRaw) {
   const input = inputRaw.toLowerCase().replace(/[^\w\s]/gi, "");
 
-  // Greet or casual
-  if (casualReplies.greetings.some(g => input.includes(g))) return "Hey there! How can I help you?";
-  if (casualReplies.goodbyes.some(b => input.includes(b))) return "Goodbye! Take care!";
-  if (casualReplies.thanks.some(t => input.includes(t))) return "You're welcome!";
+  // Greeting check (word boundary to fix 'hi' in 'shimla')
+  if (/\b(hi|hello|hey)\b/.test(input)) return "Hey there! How can I help you?";
+  if (/\b(bye|goodbye|see ya)\b/.test(input)) return "Goodbye! Take care!";
+  if (/\b(thanks|thank you)\b/.test(input)) return "You're welcome!";
 
   // Emotion detection
   if (input.includes("sad") || input.includes("upset")) return randomFrom(casualReplies.emotions.sad);
@@ -112,17 +113,17 @@ async function getBotReply(inputRaw) {
   if (input.includes("angry") || input.includes("mad")) return randomFrom(casualReplies.emotions.angry);
   if (input.includes("confused") || input.includes("doubt")) return randomFrom(casualReplies.emotions.confused);
 
-  // Creator-related
+  // Creator question
   if (input.includes("creator") || input.includes("who made you") || input.includes("who created you")) {
     return "Aryaveer Thakur, Mannat and Kunal Sood are the creators of me!";
   }
 
-  // Check school DB
+  // Local DB
   for (let key in botResponses) {
     if (input.includes(key)) return botResponses[key];
   }
 
-  // Definition-style detection
+  // Definition prompt
   const definitionPrompt = input.match(/(what is|define|meaning of)\s+(.*)/i);
   if (definitionPrompt && definitionPrompt[2]) {
     const term = definitionPrompt[2];
@@ -161,14 +162,13 @@ async function fetchDefinition(query) {
   return null;
 }
 
-// Save chat to localStorage
+// Save and Load History
 function saveToHistory(message) {
   let history = JSON.parse(localStorage.getItem("chatHistory") || "[]");
   history.push(message);
   localStorage.setItem("chatHistory", JSON.stringify(history));
 }
 
-// Toggle popup
 historyBtn.addEventListener("click", () => {
   historyPopup.classList.toggle("hidden");
   loadHistory();
