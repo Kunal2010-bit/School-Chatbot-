@@ -153,7 +153,6 @@ body {
   background-color: #003366;
   color: white;
   }
-
 .chat-box {
   flex: 1;
   overflow-y: auto;
@@ -167,6 +166,6 @@ body {
   background-image: url('IMG-20250523-WA0001.jpg');
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: 200px; /* You can change this size */
+  background-size: 250px; /* Resize as needed */
   background-blend-mode: normal;
 }
