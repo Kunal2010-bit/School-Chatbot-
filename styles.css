@@ -17,8 +17,8 @@ body {
   display: flex;
   flex-direction: column;
   position: relative;
-  background-color: transparent;
-  backdrop-filter: none;
+  background-color: transparent; /* No overlay */
+  backdrop-filter: none;         /* No blur */
 }
 
 .chat-box {
@@ -27,33 +27,9 @@ body {
   padding: 10px;
   border: 1px solid #39ff14;
   border-radius: 10px;
+  background-color: rgba(17, 17, 17, 0.7);
   margin-bottom: 10px;
   position: relative;
-
-  /* Wolf image background */
-  background-image: url('IMG-20250523-WA0001.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: rgba(17, 17, 17, 0.6); /* fallback if image not loaded */
-}
-
-/* Optional dark overlay for readability */
-.chat-box::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.4); /* adjust this for more or less darkness */
-  z-index: 0;
-  border-radius: 10px;
-}
-
-.chat-box * {
-  position: relative;
-  z-index: 1;
 }
 
 .user-message {
@@ -165,3 +141,40 @@ body {
   background-color: #003366;
   color: white;
 }
+.chat-box {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  border: 1px solid #39ff14;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  position: relative;
+
+  /* Wolf image background */
+  background-image: url('IMG-20250523-WA0001.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  /* Optional dark overlay to make messages readable */
+  background-color: rgba(17, 17, 17, 0.6); /* fallback color in case image fails */
+}
+
+/* Optional overlay for better text readability */
+.chat-box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Adjust transparency as needed */
+  z-index: 0;
+  border-radius: 10px;
+}
+
+.chat-box * {
+  position: relative;
+  z-index: 1;
+}
+
