@@ -3,18 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Wolf.AI</title>
+  <title>Project Chatbot</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="chat-container">
     <h1 class="neon-title">Wolf.AI</h1>
     
-    <!-- History Button -->
+    <!-- History Button (Top Right Inside Chat Box) -->
     <button id="history-button" class="history-btn">☰</button>
     
-    <!-- Chat Box (background image added in styles.css) -->
-    <div id="chat-box" class="chat-box"></div>
+    <!-- Chat Box with wolf background via CSS -->
+    <div id="chat-box" class="chat-box">
+      <!-- Overlay handled via CSS ::before -->
+    </div>
+
     <div id="typing-indicator" class="typing-indicator">Typing...</div>
     
     <div class="input-area">
@@ -22,7 +25,7 @@
       <button id="send-button">Send</button>
     </div>
     
-    <!-- Chat History -->
+    <!-- History Popup -->
     <div id="history-popup" class="history-popup hidden">
       <h3>Chat History</h3>
       <div id="history-content"></div>
