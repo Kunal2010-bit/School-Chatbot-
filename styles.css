@@ -7,10 +7,14 @@
   margin-bottom: 10px;
   position: relative;
 
-  /* Watermark-style background */
+  /* Full background image inside the chat box */
   background-image: url('IMG-20250523-WA0001.jpg');
+  background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
-  background-position: center center;
-  background-size: contain; /* or try cover if you want it stretched */
-  background-color: rgba(17, 17, 17, 0.7); /* semi-dark bg behind text */
+  background-attachment: scroll;
+
+  /* Optional: Dark overlay for better text readability */
+  color: white;
+  backdrop-filter: brightness(0.9);
 }
