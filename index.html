@@ -1,27 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DAV School Chatbot</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wolf.AI</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="chat-container">
-    <button class="history-btn" onclick="toggleHistory()">📜</button>
+    <h1 class="neon-title">Wolf.AI</h1>
+
+    <!-- Normal Image Display -->
+    <img src="wolf.jpg" alt="Wolf" class="normal-image" />
+
+    <!-- History Button (Top Right Inside Chat Box) -->
+    <button id="history-button" class="history-btn">☰</button>
     
-    <div class="chat-box" id="chat-box">
-      <img src="IMG-20250523-WA0001.jpg" alt="Wolf Watermark" class="center-watermark">
-    </div>
-
-    <div class="typing-indicator" id="typing-indicator">Bot is typing...</div>
-
+    <div id="chat-box" class="chat-box"></div>
+    <div id="typing-indicator" class="typing-indicator">Typing...</div>
+    
     <div class="input-area">
-      <input type="text" id="user-input" placeholder="Type your question..." onkeypress="handleKeyPress(event)">
-      <button id="send-button" onclick="sendMessage()">Send</button>
+      <input type="text" id="user-input" placeholder="Type your message..." />
+      <button id="send-button">Send</button>
     </div>
-
-    <div class="history-popup hidden" id="history-popup"></div>
+    
+    <!-- History Popup -->
+    <div id="history-popup" class="history-popup hidden">
+      <h3>Chat History</h3>
+      <div id="history-content"></div>
+    </div>
   </div>
 
   <script src="chat.js"></script>
