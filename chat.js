@@ -84,7 +84,7 @@ function appendMessage(message, className) {
 
   if (className === "bot-message") {
     const botImage = document.createElement("img");
-    botImage.src = "bot.png";
+    botImage.src = "UniversalUpscaler_66619b3b-3b63-46f9-b459-3b8a71feaba6.jpg";
     botImage.alt = "Bot";
     botImage.className = "bot-image";
     msgContainer.appendChild(botImage);
