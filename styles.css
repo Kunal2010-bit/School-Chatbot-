@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: 'Courier New', monospace;
-  background-color: #0d0d0d; /* Clean dark background */
+  background-color: #0a0a0a; /* Solid background color as per your screenshot */
   color: white;
 }
 
@@ -17,6 +17,14 @@ body {
   backdrop-filter: none;
 }
 
+.neon-title {
+  color: #39ff14;
+  font-size: 2.5rem;
+  text-shadow: 0 0 10px #39ff14, 0 0 20px #39ff14;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
 .chat-box {
   flex: 1;
   overflow-y: auto;
@@ -26,6 +34,14 @@ body {
   background-color: rgba(17, 17, 17, 0.7);
   margin-bottom: 10px;
   position: relative;
+
+  /* Watermark Image */
+  background-image: url('');
+  background-repeat: no-repeat;
+  background-position: center right;
+  background-size: 120px;
+  background-blend-mode: lighten;
+  opacity: 1;
 }
 
 .user-message {
@@ -117,7 +133,13 @@ body {
   flex-direction: row-reverse;
 }
 
-/* Removed bot-image class as bot.png was deleted */
+.bot-message .bot-image {
+  width: 35px;
+  height: 35px;
+  margin-right: 10px;
+  border-radius: 50%;
+  object-fit: cover;
+}
 
 .message-text {
   background-color: #1f1f1f;
