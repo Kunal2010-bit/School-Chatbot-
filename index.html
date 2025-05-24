@@ -8,20 +8,25 @@
 </head>
 <body>
   <div class="chat-container">
+    <!-- Chat Title -->
     <h1 class="neon-title">Wolf.AI</h1>
-    
+
     <!-- History Button (Top Right Inside Chat Box) -->
     <button id="history-button" class="history-btn">☰</button>
-    
+
+    <!-- Chat Box -->
     <div id="chat-box" class="chat-box"></div>
+
+    <!-- Typing Indicator -->
     <div id="typing-indicator" class="typing-indicator">Typing...</div>
-    
+
+    <!-- Input Area -->
     <div class="input-area">
       <input type="text" id="user-input" placeholder="Type your message..." />
       <button id="send-button">Send</button>
     </div>
-    
-    <!-- History Popup -->
+
+    <!-- Chat History Popup -->
     <div id="history-popup" class="history-popup hidden">
       <h3>Chat History</h3>
       <div id="history-content"></div>
