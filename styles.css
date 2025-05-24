@@ -1,11 +1,8 @@
 body {
+body {
   margin: 0;
   font-family: 'Courier New', monospace;
-  background-image: url('IMG-20250428-WA0001.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  background: linear-gradient(to bottom right, #011627, #0f2027);
   color: white;
 }
 
