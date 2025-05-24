@@ -18,6 +18,7 @@ body {
   flex-direction: column;
   position: relative;
   background-color: transparent;
+  backdrop-filter: none;
 }
 
 .chat-box {
@@ -29,7 +30,7 @@ body {
   margin-bottom: 10px;
   position: relative;
 
-  /* Watermark-style wolf image */
+  /* Watermark wolf image */
   background-image: url('IMG-20250523-WA0001.jpg');
   background-size: contain;
   background-repeat: no-repeat;
@@ -44,8 +45,6 @@ body {
   left: 0;
   height: 100%;
   width: 100%;
-
-  /* Semi-transparent black overlay for better blending */
   background: rgba(0, 0, 0, 0.45);
   z-index: 0;
   border-radius: 10px;
