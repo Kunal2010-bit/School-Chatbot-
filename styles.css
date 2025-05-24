@@ -29,28 +29,28 @@ body {
   margin-bottom: 10px;
   position: relative;
 
-  /* Wolf watermark image */
+  /* Watermark-style wolf image */
   background-image: url('IMG-20250523-WA0001.jpg');
-  background-size: cover;
-  background-position: center;
+  background-size: contain;
   background-repeat: no-repeat;
-
-  /* Fallback dark color */
-  background-color: rgba(17, 17, 17, 0.6);
+  background-position: center;
+  background-color: rgba(17, 17, 17, 0.85);
 }
 
-/* Blend overlay */
 .chat-box::before {
   content: "";
   position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.45); /* Adjust for more/less visibility */
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+
+  /* Semi-transparent black overlay for better blending */
+  background: rgba(0, 0, 0, 0.45);
   z-index: 0;
   border-radius: 10px;
 }
 
-/* Ensure chat content stays above overlay */
 .chat-box * {
   position: relative;
   z-index: 1;
