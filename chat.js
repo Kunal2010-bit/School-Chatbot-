@@ -20,7 +20,7 @@ const botResponses = {
   "houses": "There are six houses: Gandhi, Ashoka, Hansraj, Nehru, Tagore and Subhash.",
   "ai teacher": "Kamlesh Ma'am teaches Artificial Intelligence.",
   "it teacher": "Juhi Ma'am is the IT teacher.",
-  "maths teacher": "Mr. Kamal Thakur, Vipin Sir and Yogita Ma'am teach Maths in Class 9.",
+  "maths teacher": "Kamal Sir, Vipin Sir and Yogita Ma'am teach Maths in Class 9.",
   "toppers": "Devika Kainthla topped Humanities with 98.2%, Aakarshita Alok Sood topped Science with 98%, and Vedish Chauhan led Commerce with 94.6%.",
   "events": "The school hosts Annual Day, Sports Day, Science Exhibitions, Debates, and Cultural Fests.",
   "creators": "Aryaveer Thakur, Kunal Sood and Mannat created me!",
@@ -36,7 +36,7 @@ const botResponses = {
   "website": "The official website is http://davnewshimla.in/"
 };
 
-// Button & Input Events
+// Events
 sendButton.addEventListener("click", sendMessage);
 userInput.addEventListener("keypress", (e) => {
   if (e.key === "Enter") sendMessage();
@@ -80,28 +80,27 @@ function appendMessage(message, className) {
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-// Fetch reply using public chatbot API (with fallback to local Q&A)
 async function getBotReply(inputRaw) {
   const input = inputRaw.toLowerCase().replace(/[^\w\s]/gi, "");
 
-  // First, check school-specific Q&A
+  // School Q&A first
   for (let key in botResponses) {
     if (input.includes(key)) return botResponses[key];
   }
 
   // Fallback to public chatbot API
   try {
-    const response = await fetch(`https://api.affiliateplus.xyz/api/chat?message=${encodeURIComponent(inputRaw)}&botname=DAVBot&ownername=DAVSchool`);
-    const data = await response.json();
+    const res = await fetch(`https://api.affiliateplus.xyz/api/chat?message=${encodeURIComponent(inputRaw)}&botname=DAVBot&ownername=DAVSchool`);
+    const data = await res.json();
     if (data && data.message) return data.message;
   } catch (error) {
-    console.error("API error:", error);
+    console.error("API fetch failed", error);
   }
 
-  return "Hmm, I couldn't understand that. Try asking in a different way!";
+  return "I'm not sure how to respond to that. Can you try rephrasing?";
 }
 
-// Chat history functions
+// Save and Load History
 function saveToHistory(message) {
   let history = JSON.parse(localStorage.getItem("chatHistory") || "[]");
   history.push(message);
