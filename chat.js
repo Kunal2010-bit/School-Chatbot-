@@ -36,26 +36,7 @@ const botResponses = {
   "website": "The official website is http://davnewshimla.in/"
 };
 
-// Chat tone
-const casualReplies = {
-  greetings: ["hi", "hello", "hey"],
-  goodbyes: ["bye", "goodbye", "see ya"],
-  thanks: ["thanks", "thank you"],
-  emotions: {
-    happy: ["That's great to hear!", "Awesome!", "Glad to hear that!"],
-    sad: ["I'm here if you want to talk.", "Everything will be okay."],
-    angry: ["Take a deep breath, I'm with you."],
-    confused: ["Let me try to help you out."]
-  },
-  default: [
-    "That's interesting!",
-    "Hmm, can you tell me more?",
-    "I’m learning with you!",
-    "That's cool!"
-  ]
-};
-
-// Events
+// Button & Input Events
 sendButton.addEventListener("click", sendMessage);
 userInput.addEventListener("keypress", (e) => {
   if (e.key === "Enter") sendMessage();
@@ -99,70 +80,28 @@ function appendMessage(message, className) {
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
+// Fetch reply using public chatbot API (with fallback to local Q&A)
 async function getBotReply(inputRaw) {
   const input = inputRaw.toLowerCase().replace(/[^\w\s]/gi, "");
 
-  // Greeting check (word boundary to fix 'hi' in 'shimla')
-  if (/\b(hi|hello|hey)\b/.test(input)) return "Hey there! How can I help you?";
-  if (/\b(bye|goodbye|see ya)\b/.test(input)) return "Goodbye! Take care!";
-  if (/\b(thanks|thank you)\b/.test(input)) return "You're welcome!";
-
-  // Emotion detection
-  if (input.includes("sad") || input.includes("upset")) return randomFrom(casualReplies.emotions.sad);
-  if (input.includes("happy") || input.includes("excited")) return randomFrom(casualReplies.emotions.happy);
-  if (input.includes("angry") || input.includes("mad")) return randomFrom(casualReplies.emotions.angry);
-  if (input.includes("confused") || input.includes("doubt")) return randomFrom(casualReplies.emotions.confused);
-
-  // Creator question
-  if (input.includes("creator") || input.includes("who made you") || input.includes("who created you")) {
-    return "Aryaveer Thakur, Mannat and Kunal Sood are the creators of me!";
-  }
-
-  // Local DB
+  // First, check school-specific Q&A
   for (let key in botResponses) {
     if (input.includes(key)) return botResponses[key];
   }
 
-  // Definition prompt
-  const definitionPrompt = input.match(/(what is|define|meaning of)\s+(.*)/i);
-  if (definitionPrompt && definitionPrompt[2]) {
-    const term = definitionPrompt[2];
-    const definition = await fetchDefinition(term);
-    if (definition) return definition;
+  // Fallback to public chatbot API
+  try {
+    const response = await fetch(`https://api.affiliateplus.xyz/api/chat?message=${encodeURIComponent(inputRaw)}&botname=DAVBot&ownername=DAVSchool`);
+    const data = await response.json();
+    if (data && data.message) return data.message;
+  } catch (error) {
+    console.error("API error:", error);
   }
 
-  // Encyclopedic fallback
-  const result = await fetchDefinition(input);
-  if (result) return result;
-
-  return randomFrom(casualReplies.default);
+  return "Hmm, I couldn't understand that. Try asking in a different way!";
 }
 
-function randomFrom(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-
-async function fetchDefinition(query) {
-  const urls = [
-    `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`,
-    `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1`,
-    `https://simple.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`,
-    `https://www.wikidata.org/w/api.php?action=wbsearchentities&search=${encodeURIComponent(query)}&language=en&format=json&origin=*`
-  ];
-
-  for (let url of urls) {
-    try {
-      const res = await fetch(url);
-      const data = await res.json();
-      if (data.extract) return data.extract;
-      if (data.AbstractText) return data.AbstractText;
-      if (data.search && data.search[0] && data.search[0].description) return data.search[0].description;
-    } catch (e) {}
-  }
-  return null;
-}
-
-// Save and Load History
+// Chat history functions
 function saveToHistory(message) {
   let history = JSON.parse(localStorage.getItem("chatHistory") || "[]");
   history.push(message);
