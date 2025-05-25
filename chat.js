@@ -1,6 +1,6 @@
 async function getBotReply(userMessage) {
   const botName = "RoboBuddy"; // Customize as you like
-  const ownerName = "Kunal";   // Your name or brand
+  const ownerName = "Kunal,Aryaveerand Mannat";   // Your name or brand
 
   const url = `https://api.affiliateplus.xyz/api/chat?message=${encodeURIComponent(userMessage)}&botname=${botName}&ownername=${ownerName}`;
 
