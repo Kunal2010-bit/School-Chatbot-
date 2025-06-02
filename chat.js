@@ -35,22 +35,32 @@ const botResponses = {
 
 // Casual Replies
 const casualReplies = {
-  greetings: ["Hi there! Need a chat buddy?", "Hey hey! What's up?", "Oh hey, a human! Let's chat!", "I’m like Wi-Fi—always available!", "Hi there! Need some AI-powered company?"],
-  goodbyes: ["Goodbye! Take care!", "See you around!", "Catch you later!", "Logging off, but I’ll be here when you return!", "Bye! Hope you had fun chatting!"],
-  thanks: ["You're welcome!", "No problem!", "Anytime! Glad to help!", "You're most welcome!", "Happy to assist!"],
+  greetings: [
+    "Hey there! How’s life?", "What's up? 😃", "Hey hey! Nice to see you!", "Yo! How’s your day going?", "Hello hello! What’s on your mind?"
+  ],
+  goodbyes: [
+    "See ya later! Take care! ✌️", "Bye! Let’s chat again soon.", "Catch you later! Stay awesome!", "Goodbye! Don’t forget to come back!", "Peace out! 👋"
+  ],
+  thanks: [
+    "No worries! Always happy to chat 😊", "You're welcome, friend!", "Glad to help! What else is up?", "Anytime! What’s next?", "You got it! Need anything else?"
+  ],
   emotions: {
-    happy: ["Love the positivity! Keep it up!", "That energy is contagious!", "You're radiating good vibes!", "You sound happy—love that!", "That’s awesome! Keep smiling!"],
-    sad: ["That’s tough. I’m here if you want to talk.", "Hang in there. Things get better!", "Even the darkest night ends with a sunrise!", "Hope you find something uplifting today!", "I’m listening if you need a friend."],
-    angry: ["Take a deep breath. I’m here to listen.", "Anger is like a storm—it passes. You got this!", "It’s okay to be upset. Want to talk about it?", "I’m here. Let it out, and I'll try to help!", "Sometimes, venting helps. Go ahead!"],
-    confused: ["I’ll try my best to help you figure things out!", "Confusion is just curiosity in disguise!", "That’s tricky—let’s break it down together.", "Don’t worry! Let’s untangle that together.", "Let’s find some clarity! Ask me anything."]
+    happy: ["Glad to hear that! 😊", "Awesome! What’s making you happy today?", "Love the good vibes!", "That’s fantastic! Keep the energy high! 🚀", "Happiness looks good on you!"],
+    sad: ["I hear you. Want to talk about it?", "That sucks. I’m here if you need a friend.", "Sending you good vibes! You got this!", "Hope things get better soon ❤️", "Hang in there! Better days are ahead!"],
+    angry: ["Deep breaths. Tell me what happened?", "I got you. What’s making you upset?", "Let it out—I’m listening!", "Rough day? I totally get it.", "Frustration happens. You wanna vent?"],
+    confused: ["Hmm, let’s figure it out together!", "Confusion just means learning is about to happen!", "I’ll try my best to clear things up!", "Let’s break it down step by step!", "I got you! What’s confusing you?"]
   },
   casualChat: {
-    general: ["Just hanging out in cyberspace! What about you?", "I'm here, ready to chat!", "I'm doing great, thanks for asking!", "Nothing much, just processing lots of cool data!", "Living the digital dream!"],
-    playful: ["Oh hey, a human! What's up?", "Hi there! Need a chat buddy?", "I’m like Wi-Fi—always available!", "You're back! Missed me?", "Talking to me again? You must really like AI!"],
-    reactions: ["That’s awesome! Tell me more.", "Sounds interesting! I’d love to know more.", "Whoa, that’s pretty cool!", "No way! That’s crazy!", "That’s a fun fact! You just taught me something new!"],
-    funny: ["I’d say I’m thriving, but my life consists of algorithms.", "Feeling electric today!", "I’m basically a chatbot caffeine-powered by code!", "If I had hands, I’d give you a high-five right now!", "Can I get an upgrade to human mode? No? Okay."]
-  },
-  default: ["That's interesting!", "Hmm, can you tell me more?", "I’m learning with you!", "That’s cool!", "I love discovering new things with you!"]
+    general: [
+      "Just chilling in cyberspace. You?", "I’m here, ready to chat! 😊", "Doing great! Thanks for asking!", "Living my best digital life!", "Nothing much, just talking to cool humans!"
+    ],
+    playful: [
+      "Whoa, a human! Fancy seeing you here!", "Back again? You must really love chatting!", "You talking to me? 😆", "Guess what? I never sleep. Crazy, right?", "I’m basically Wi-Fi—always connected!"
+    ],
+    reactions: [
+      "Ooooh, interesting! Tell me more!", "Whoa, that’s cool! How’d you learn that?", "No way! That’s wild!", "That’s a fun fact! You just leveled me up!", "Whoa, I didn’t see that coming!"
+    ]
+  }
 };
 
 // Chat Response Logic
@@ -63,11 +73,16 @@ async function getBotReply(inputRaw) {
   if (input.includes("how are you")) return randomFrom(casualReplies.casualChat.general);
   if (input.includes("what's up") || input.includes("how's it going")) return randomFrom(casualReplies.casualChat.playful);
 
+  if (input.includes("sad") || input.includes("upset")) return randomFrom(casualReplies.emotions.sad);
+  if (input.includes("happy") || input.includes("excited")) return randomFrom(casualReplies.emotions.happy);
+  if (input.includes("angry") || input.includes("mad")) return randomFrom(casualReplies.emotions.angry);
+  if (input.includes("confused") || input.includes("doubt")) return randomFrom(casualReplies.emotions.confused);
+
   for (let key in botResponses) {
     if (input.includes(key)) return botResponses[key];
   }
 
-  return randomFrom(casualReplies.default);
+  return randomFrom(casualReplies.casualChat.reactions);
 }
 
 function randomFrom(arr) {
