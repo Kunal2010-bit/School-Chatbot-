@@ -38,22 +38,26 @@ const botResponses = {
 
 // Chat tone
 const casualReplies = {
-  greetings: ["hi", "hello", "hey"],
-  goodbyes: ["bye", "goodbye", "see ya"],
-  thanks: ["thanks", "thank you"],
+  greetings: ["Hi there! Need a chat buddy?", "Hey hey! What's up?", "Oh hey, a human! Let's chat!", "I’m like Wi-Fi—always available!", "Hi there! Need some AI-powered company?"],
+  goodbyes: ["Goodbye! Take care!", "See you around!", "Catch you later!", "Logging off, but I’ll be here when you return!", "Bye! Hope you had fun chatting!"],
+  thanks: ["You're welcome!", "No problem!", "Anytime! Glad to help!", "You're most welcome!", "Happy to assist!"],
   emotions: {
-    happy: ["That's great to hear!", "Awesome!", "Glad to hear that!"],
-    sad: ["I'm here if you want to talk.", "Everything will be okay."],
-    angry: ["Take a deep breath, I'm with you."],
-    confused: ["Let me try to help you out."]
+    happy: ["Love the positivity! Keep it up!", "That energy is contagious!", "You're radiating good vibes!", "You sound happy—love that!", "That’s awesome! Keep smiling!"],
+    sad: ["That’s tough. I’m here if you want to talk.", "Hang in there. Things get better!", "Even the darkest night ends with a sunrise!", "Hope you find something uplifting today!", "I’m listening if you need a friend."],
+    angry: ["Take a deep breath. I’m here to listen.", "Anger is like a storm—it passes. You got this!", "It’s okay to be upset. Want to talk about it?", "I’m here. Let it out, and I'll try to help!", "Sometimes, venting helps. Go ahead!"],
+    confused: ["I’ll try my best to help you figure things out!", "Confusion is just curiosity in disguise!", "That’s tricky—let’s break it down together.", "Don’t worry! Let’s untangle that together.", "Let’s find some clarity! Ask me anything."]
   },
-  default: [
-    "That's interesting!",
-    "Hmm, can you tell me more?",
-    "I’m learning with you!",
-    "That's cool!"
-  ]
+  casualChat: {
+    general: ["Just hanging out in cyberspace! What about you?", "I'm here, ready to chat!", "I'm doing great, thanks for asking!", "Nothing much, just processing lots of cool data!", "Living the digital dream!"],
+    playful: ["Oh hey, a human! What's up?", "Hi there! Need a chat buddy?", "I’m like Wi-Fi—always available!", "You're back! Missed me?", "Talking to me again? You must really like AI!"],
+    reactions: ["That’s awesome! Tell me more.", "Sounds interesting! I’d love to know more.", "Whoa, that’s pretty cool!", "No way! That’s crazy!", "That’s a fun fact! You just taught me something new!"],
+    funny: ["I’d say I’m thriving, but my life consists of algorithms.", "Feeling electric today!", "I’m basically a chatbot caffeine-powered by code!", "If I had hands, I’d give you a high-five right now!", "Can I get an upgrade to human mode? No? Okay."]
+  },
+  default: ["That's interesting!", "Hmm, can you tell me more?", "I’m learning with you!", "That’s cool!", "I love discovering new things with you!"]
 };
+
+
+
 
 // Events
 sendButton.addEventListener("click", sendMessage);
