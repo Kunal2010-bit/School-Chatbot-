@@ -1,3 +1,4 @@
+@@ -6,10 +6,10 @@ const historyBtn = document.getElementById("history-button");
 const historyPopup = document.getElementById("history-popup");
 const historyContent = document.getElementById("history-content");
 
